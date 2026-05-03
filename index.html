@@ -1,5 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Guía completa sobre Ingeniería Industrial: áreas, historia, herramientas, perfil profesional, salidas laborales, sectores y más.">
+<meta name="keywords" content="ingeniería industrial, lean manufacturing, six sigma, producción, logística, calidad, optimización">
+<meta name="author" content="Ingeniería Industrial Guide">
+<meta property="og:title" content="Ingeniería Industrial — Guía Completa">
+<meta property="og:description" content="Todo lo que necesitas saber sobre Ingeniería Industrial en un solo lugar.">
+<meta property="og:type" content="website">
+<title>Ingeniería Industrial — Guía Completa</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #1a1a1a;
+    --accent: #f5a623;
+    --accent2: #e84855;
+    --text: #e8e4dc;
+    --muted: #888;
+    --border: #2a2a2a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 60px;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 3px; color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+    font-family: 'IBM Plex Mono', monospace; transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+  /* hamburger */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: all 0.3s; }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed; top: 60px; left: 0; right: 0;
+    background: rgba(10,10,10,0.97); border-bottom: 1px solid var(--border);
+    flex-direction: column; padding: 1.5rem 2rem; gap: 1.5rem; z-index: 99;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--muted); text-decoration: none; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 1; min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 4rem 4rem; overflow: hidden;
+  }
+  .hero-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+    letter-spacing: 4px; color: var(--accent); text-transform: uppercase;
+    margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-tag::before { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--accent); }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 12vw, 11rem); line-height: 0.9;
+    letter-spacing: 2px; color: var(--text); max-width: 900px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    margin-top: 2rem; max-width: 560px; font-size: 1.1rem;
+    color: var(--muted); font-weight: 300; animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; animation: fadeUp 0.8s 0.4s ease both; flex-wrap: wrap; }
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 4px; }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 3px;
+    color: var(--muted); text-transform: uppercase; animation: bounce 2s infinite;
+  }
+  .hero-scroll::after { content: '↓'; font-size: 1rem; color: var(--accent); }
+
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+
+  .hero-cog {
+    position: absolute; right: -80px; bottom: -60px;
+    width: 500px; height: 500px; opacity: 0.04; animation: spin 40s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── LAYOUT ── */
+  section {
+    position: relative; z-index: 1;
+    padding: 5rem 4rem; max-width: 1200px; margin: 0 auto;
+  }
+  .divider { width: 100%; height: 1px; background: var(--border); }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem;
+    letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: 2px; line-height: 1; margin-bottom: 1rem;
+  }
+
+  /* ── DEFINICION ── */
+  .def-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+  .def-text p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1.05rem; }
+  .def-text p strong { color: var(--text); }
+  .def-highlight {
+    background: var(--surface2); border-left: 3px solid var(--accent);
+    padding: 1.5rem 2rem; border-radius: 0 8px 8px 0;
+  }
+  .def-highlight p { font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; color: var(--text); line-height: 1.8; }
+
+  /* ── AREAS ── */
+  .areas-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; margin-top: 3rem;
+    background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+  }
+  .area-card { background: var(--surface); padding: 2rem; transition: background 0.3s; cursor: default; position: relative; overflow: hidden; }
+  .area-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+  }
+  .area-card:hover { background: var(--surface2); }
+  .area-card:hover::after { transform: scaleX(1); }
+  .area-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+  .area-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 1px; color: var(--text); margin-bottom: 0.5rem; }
+  .area-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── HISTORIA ── */
+  .timeline { margin-top: 3rem; position: relative; padding-left: 2rem; }
+  .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--accent), transparent); }
+  .tl-item { position: relative; padding: 0 0 3rem 2rem; opacity: 0; transform: translateX(-20px); transition: all 0.5s ease; }
+  .tl-item.visible { opacity: 1; transform: translateX(0); }
+  .tl-item::before { content: ''; position: absolute; left: -4px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+  .tl-year { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--accent); letter-spacing: 2px; }
+  .tl-title { font-weight: 600; font-size: 1rem; margin: 0.2rem 0; color: var(--text); }
+  .tl-desc { font-size: 0.9rem; color: var(--muted); }
+
+  /* ── HERRAMIENTAS ── */
+  .tools-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
+  .tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; transition: border-color 0.3s, transform 0.3s; }
+  .tool-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .tool-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; color: var(--accent); margin-bottom: 0.5rem; }
+  .tool-card p { font-size: 0.9rem; color: var(--muted); margin-bottom: 1rem; }
+  .tool-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 1px; padding: 3px 10px; border: 1px solid var(--border); border-radius: 20px; color: var(--muted); text-transform: uppercase; }
+
+  /* ── PERFIL ── */
+  .perfil-list { margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .perfil-item { display: flex; align-items: flex-start; gap: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem 1.5rem; }
+  .perfil-item .check { width: 22px; height: 22px; min-width: 22px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #000; font-weight: bold; margin-top: 2px; }
+  .perfil-item p { font-size: 0.95rem; color: var(--text); }
+
+  /* ── SALIDAS ── */
+  .salidas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .salida-card { background: var(--surface2); border-radius: 12px; padding: 2rem 1.5rem; text-align: center; border: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden; }
+  .salida-card:hover { background: var(--surface); border-color: var(--accent2); }
+  .salida-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--border); position: absolute; top: 10px; right: 16px; line-height: 1; }
+  .salida-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+  .salida-card h3 { font-weight: 600; font-size: 1rem; color: var(--text); margin-bottom: 0.5rem; }
+  .salida-card p { font-size: 0.85rem; color: var(--muted); }
+
+  /* ── SECTORES ── */
+  .sectores-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 3rem; }
+  .sector-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.5rem 1rem; text-align: center; transition: all 0.3s;
+  }
+  .sector-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .sector-card .sector-icon { font-size: 2rem; display: block; margin-bottom: 0.5rem; }
+  .sector-card h4 { font-weight: 600; font-size: 0.9rem; color: var(--text); margin-bottom: 0.3rem; }
+  .sector-card p { font-size: 0.78rem; color: var(--muted); }
+
+  /* ── COMPARATIVA ── */
+  .compare-table { width: 100%; margin-top: 3rem; border-collapse: collapse; border-radius: 12px; overflow: hidden; }
+  .compare-table th { background: var(--surface2); font-family: 'Bebas Neue', sans-serif; letter-spacing: 2px; font-size: 1rem; padding: 1rem 1.5rem; text-align: left; color: var(--accent); border-bottom: 1px solid var(--border); }
+  .compare-table th:first-child { color: var(--muted); font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 3px; }
+  .compare-table td { padding: 1rem 1.5rem; font-size: 0.9rem; color: var(--muted); border-bottom: 1px solid var(--border); background: var(--surface); }
+  .compare-table td:first-child { color: var(--text); font-weight: 500; }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: var(--surface2); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-family: 'IBM Plex Mono', monospace; }
+  .badge-yes { background: rgba(245,166,35,0.15); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); }
+  .badge-no { background: rgba(100,100,100,0.1); color: var(--muted); border: 1px solid var(--border); }
+  .badge-med { background: rgba(232,72,85,0.1); color: var(--accent2); border: 1px solid rgba(232,72,85,0.3); }
+
+  /* ── FAQ ── */
+  .faq-list { margin-top: 3rem; display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .faq-item { background: var(--surface); }
+  .faq-q {
+    width: 100%; background: none; border: none; color: var(--text); text-align: left;
+    padding: 1.4rem 2rem; font-family: 'IBM Plex Sans', sans-serif; font-size: 1rem; font-weight: 500;
+    cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.2s;
+  }
+  .faq-q:hover { background: var(--surface2); }
+  .faq-q .faq-icon { font-size: 1.2rem; color: var(--accent); transition: transform 0.3s; flex-shrink: 0; margin-left: 1rem; }
+  .faq-q.open .faq-icon { transform: rotate(45deg); }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+  .faq-a.open { max-height: 300px; }
+  .faq-a p { padding: 0 2rem 1.4rem; font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
+
+  /* ── GLOSARIO ── */
+  .glosario-search {
+    margin-top: 2rem; position: relative;
+  }
+  .glosario-search input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 1rem 1.5rem 1rem 3rem; color: var(--text);
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .glosario-search input::placeholder { color: var(--muted); }
+  .glosario-search input:focus { border-color: var(--accent); }
+  .glosario-search::before { content: '🔍'; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 0.9rem; }
+  .glosario-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; }
+  .glosario-item {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 1.2rem 1.5rem; transition: border-color 0.2s;
+  }
+  .glosario-item:hover { border-color: var(--accent); }
+  .glosario-item h4 { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; font-size: 1.1rem; color: var(--accent); margin-bottom: 0.3rem; }
+  .glosario-item p { font-size: 0.85rem; color: var(--muted); }
+  .glosario-item.hidden { display: none; }
+
+  /* ── RECURSOS ── */
+  .recursos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .recurso-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.8rem; display: flex; flex-direction: column; gap: 0.75rem;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .recurso-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .recurso-type { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+  .recurso-card h4 { font-weight: 600; font-size: 1rem; color: var(--text); }
+  .recurso-card p { font-size: 0.85rem; color: var(--muted); flex: 1; }
+  .recurso-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--accent); text-decoration: none; letter-spacing: 1px; margin-top: auto; }
+  .recurso-link:hover { text-decoration: underline; }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 5rem 4rem; text-align: center; position: relative; overflow: hidden;
+    margin: 0 4rem 6rem;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(245,166,35,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: 2px; margin-bottom: 1rem; }
+  .cta-section p { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto 2.5rem; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    background: var(--accent); color: #000; font-weight: 600;
+    font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; padding: 1rem 2.5rem; border-radius: 50px;
+    font-family: 'IBM Plex Mono', monospace; transition: all 0.3s; cursor: pointer; border: none;
+  }
+  .btn:hover { background: #ffbe4d; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,166,35,0.3); }
+
+  /* ── PROGRESS BAR (scroll) ── */
+  #progress-bar {
+    position: fixed; top: 60px; left: 0; height: 2px;
+    background: var(--accent); width: 0%; z-index: 101; transition: width 0.1s;
+  }
+
+  /* ── BACK TO TOP ── */
+  #back-top {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--accent); color: #000; border: none; border-radius: 50%;
+    width: 44px; height: 44px; font-size: 1.1rem; cursor: pointer;
+    opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 50;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #back-top.visible { opacity: 1; pointer-events: all; }
+  #back-top:hover { background: #ffbe4d; transform: translateY(-3px); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 1;
+    border-top: 1px solid var(--border); padding: 2rem 4rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  footer .logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 3px; color: var(--accent); }
+  footer p { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 1px; }
+  footer .footer-links { display: flex; gap: 1.5rem; }
+  footer .footer-links a { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); text-decoration: none; letter-spacing: 1px; }
+  footer .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    section { padding: 3.5rem 1.5rem; }
+    .def-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .areas-grid { grid-template-columns: 1fr 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .perfil-list { grid-template-columns: 1fr; }
+    .salidas-grid { grid-template-columns: 1fr 1fr; }
+    .sectores-grid { grid-template-columns: repeat(2, 1fr); }
+    .compare-table { font-size: 0.8rem; }
+    .compare-table th, .compare-table td { padding: 0.75rem 1rem; }
+    .glosario-grid { grid-template-columns: 1fr; }
+    .recursos-grid { grid-template-columns: 1fr; }
+    .cta-section { margin: 0 1.5rem 4rem; padding: 3rem 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .footer-links { justify-content: center; flex-wrap: wrap; }
+  }
+  @media (max-width: 500px) {
+    .areas-grid { grid-template-columns: 1fr; }
+    .salidas-grid { grid-template-columns: 1fr; }
+    .sectores-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Volver arriba">↑</button>
+
+<!-- NAV -->
 <nav>
-    <ul>
-        <li><a href="#cta">Call to Action</a></li>
-    </ul>
+  <div class="nav-logo">ING. INDUSTRIAL</div>
+  <ul class="nav-links">
+    <li><a href="#definicion">Definición</a></li>
+    <li><a href="#areas">Áreas</a></li>
+    <li><a href="#historia">Historia</a></li>
+    <li><a href="#herramientas">Herramientas</a></li>
+    <li><a href="#sectores">Sectores</a></li>
+    <li><a href="#perfil">Perfil</a></li>
+    <li><a href="#salidas">Salidas</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#glosario">Glosario</a></li>
+    <li><a href="#videoteca">Videos</a></li>
+    <li><a href="#biblioteca">Libros</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#definicion" onclick="closeMobile()">Definición</a>
+  <a href="#areas" onclick="closeMobile()">Áreas</a>
+  <a href="#historia" onclick="closeMobile()">Historia</a>
+  <a href="#herramientas" onclick="closeMobile()">Herramientas</a>
+  <a href="#sectores" onclick="closeMobile()">Sectores</a>
+  <a href="#perfil" onclick="closeMobile()">Perfil</a>
+  <a href="#salidas" onclick="closeMobile()">Salidas</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="#glosario" onclick="closeMobile()">Glosario</a>
+  <a href="#videoteca" onclick="closeMobile()">Videos</a>
+  <a href="#biblioteca" onclick="closeMobile()">Libros</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Guía Completa 2024</div>
+  <h1>INGENIERÍA<br><span>INDUSTRIAL</span></h1>
+  <p class="hero-sub">La disciplina que optimiza sistemas complejos, maximiza la eficiencia y transforma procesos industriales en ventajas competitivas reales.</p>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num">150+</span><span class="stat-label">Años de historia</span></div>
+    <div class="stat-item"><span class="stat-num">9</span><span class="stat-label">Áreas principales</span></div>
+    <div class="stat-item"><span class="stat-num">+30%</span><span class="stat-label">Demanda laboral</span></div>
+    <div class="stat-item"><span class="stat-num">∞</span><span class="stat-label">Sectores de aplicación</span></div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+  <svg class="hero-cog" viewBox="0 0 200 200" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M80 5 L90 0 L110 0 L120 5 L115 20 A50 50 0 0 1 130 28 L145 22 L158 30 L165 45 L155 55 A50 50 0 0 1 158 70 L173 78 L175 90 L175 110 L173 122 L158 130 A50 50 0 0 1 155 145 L165 155 L158 170 L145 178 L130 172 A50 50 0 0 1 115 180 L120 195 L110 200 L90 200 L80 195 L85 180 A50 50 0 0 1 70 172 L55 178 L42 170 L35 155 L45 145 A50 50 0 0 1 42 130 L27 122 L25 110 L25 90 L27 78 L42 70 A50 50 0 0 1 45 55 L35 45 L42 30 L55 22 L70 28 A50 50 0 0 1 85 20 Z"/>
+    <circle cx="100" cy="100" r="30" fill="none" stroke="white" stroke-width="8"/>
+  </svg>
+</div>
+
+<div class="divider"></div>
+
+<!-- 01 DEFINICION -->
+<section id="definicion">
+  <div class="section-label">01 — Fundamentos</div>
+  <h2 class="section-title">¿QUÉ ES LA<br>INGENIERÍA INDUSTRIAL?</h2>
+  <div class="def-grid">
+    <div class="def-text">
+      <p>La <strong>Ingeniería Industrial</strong> es la rama de la ingeniería que se ocupa del diseño, mejora e instalación de sistemas integrados de personas, materiales, información, equipos y energía.</p>
+      <p>Su objetivo principal es <strong>optimizar la productividad</strong> y la calidad, reduciendo costos, eliminando desperdicios y mejorando continuamente los procesos en cualquier tipo de organización.</p>
+      <p>A diferencia de otras ingenierías centradas en un dominio técnico específico, la ingeniería industrial tiene un enfoque <strong>sistémico y transversal</strong>, aplicable a manufactura, servicios, salud, logística y más.</p>
+    </div>
+    <div>
+      <div class="def-highlight">
+        <p>"La Ingeniería Industrial se ocupa del diseño, desarrollo e implantación de sistemas integrados de personas, materiales, información, equipos y energía para producir servicios y productos de manera eficiente."<br><br>— <strong>Instituto de Ingenieros Industriales (IIE)</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 02 AREAS -->
+<section id="areas">
+  <div class="section-label">02 — Especialidades</div>
+  <h2 class="section-title">ÁREAS DE<br>CONOCIMIENTO</h2>
+  <div class="areas-grid">
+    <div class="area-card"><span class="area-icon">⚙️</span><h3>Producción y Manufactura</h3><p>Diseño y gestión de sistemas productivos, planificación de la producción, control de inventarios y gestión de la cadena de suministro.</p></div>
+    <div class="area-card"><span class="area-icon">📊</span><h3>Investigación de Operaciones</h3><p>Modelado matemático y optimización para la toma de decisiones: programación lineal, simulación, teoría de colas y más.</p></div>
+    <div class="area-card"><span class="area-icon">🏭</span><h3>Ergonomía y Factores Humanos</h3><p>Diseño de puestos de trabajo, análisis de movimientos, seguridad industrial y bienestar del trabajador para maximizar el desempeño.</p></div>
+    <div class="area-card"><span class="area-icon">✅</span><h3>Gestión de Calidad</h3><p>Control estadístico de procesos, normas ISO, Six Sigma, Lean Manufacturing y filosofías de mejora continua como Kaizen.</p></div>
+    <div class="area-card"><span class="area-icon">🚚</span><h3>Logística y Supply Chain</h3><p>Gestión integral del flujo de materiales, transporte, almacenamiento y distribución desde el proveedor hasta el cliente final.</p></div>
+    <div class="area-card"><span class="area-icon">💰</span><h3>Ingeniería Económica</h3><p>Evaluación financiera de proyectos, análisis de costos, presupuestos, VPN, TIR y toma de decisiones de inversión.</p></div>
+    <div class="area-card"><span class="area-icon">🖥️</span><h3>Sistemas de Información</h3><p>ERP, automatización de procesos, análisis de datos industriales e implementación de tecnologías de la Industria 4.0.</p></div>
+    <div class="area-card"><span class="area-icon">🌿</span><h3>Gestión Ambiental</h3><p>Producción más limpia, huella de carbono, gestión de residuos y diseño de sistemas productivos sustentables.</p></div>
+    <div class="area-card"><span class="area-icon">📐</span><h3>Diseño de Instalaciones</h3><p>Distribución en planta (layout), diseño de almacenes, flujos de materiales y optimización del espacio físico productivo.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 HISTORIA -->
+<section id="historia">
+  <div class="section-label">03 — Evolución</div>
+  <h2 class="section-title">HISTORIA Y<br>ORIGEN</h2>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-year">1776</div><div class="tl-title">División del trabajo — Adam Smith</div><p class="tl-desc">En "La Riqueza de las Naciones", Smith describe cómo dividir tareas aumenta exponencialmente la productividad, sentando las bases conceptuales.</p></div>
+    <div class="tl-item"><div class="tl-year">1880s</div><div class="tl-title">Administración Científica — Frederick Taylor</div><p class="tl-desc">Taylor introduce el estudio sistemático del trabajo, tiempos y movimientos, estableciendo la ingeniería industrial como disciplina formal.</p></div>
+    <div class="tl-item"><div class="tl-year">1910s</div><div class="tl-title">Producción en masa — Henry Ford</div><p class="tl-desc">La cadena de montaje del Ford T revoluciona la manufactura. Los Gilbreth estudian los micromovimientos del trabajo.</p></div>
+    <div class="tl-item"><div class="tl-year">1940s</div><div class="tl-title">Investigación de Operaciones</div><p class="tl-desc">Durante la Segunda Guerra Mundial, equipos multidisciplinarios resuelven problemas militares complejos. Nace la IO como herramienta formal.</p></div>
+    <div class="tl-item"><div class="tl-year">1970s</div><div class="tl-title">Sistema Toyota de Producción — Lean</div><p class="tl-desc">Taiichi Ohno y Toyota desarrollan el Just-in-Time y el pensamiento Lean, eliminando desperdicios y revolucionando la manufactura mundial.</p></div>
+    <div class="tl-item"><div class="tl-year">1990s</div><div class="tl-title">Six Sigma y Reingeniería</div><p class="tl-desc">Motorola y GE popularizan Six Sigma. Hammer y Champy proponen la Reingeniería de Procesos. La calidad se vuelve estratégica.</p></div>
+    <div class="tl-item"><div class="tl-year">2010s+</div><div class="tl-title">Industria 4.0 e Inteligencia Artificial</div><p class="tl-desc">Internet de las Cosas, Big Data, robótica colaborativa e IA transforman los sistemas productivos. El ingeniero industrial lidera la transformación digital.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 04 HERRAMIENTAS -->
+<section id="herramientas">
+  <div class="section-label">04 — Metodologías</div>
+  <h2 class="section-title">HERRAMIENTAS<br>Y MÉTODOS</h2>
+  <div class="tools-grid">
+    <div class="tool-card"><h3>Lean Manufacturing</h3><p>Filosofía enfocada en eliminar todo tipo de desperdicio (muda) dentro del proceso productivo, entregando máximo valor al cliente.</p><div class="tool-tags"><span class="tag">5S</span><span class="tag">Kanban</span><span class="tag">Kaizen</span><span class="tag">VSM</span><span class="tag">SMED</span><span class="tag">Poka-Yoke</span></div></div>
+    <div class="tool-card"><h3>Six Sigma</h3><p>Metodología estadística para reducir la variación y los defectos en procesos. Busca alcanzar 3.4 defectos por millón de oportunidades.</p><div class="tool-tags"><span class="tag">DMAIC</span><span class="tag">DMADV</span><span class="tag">SPC</span><span class="tag">DOE</span><span class="tag">FMEA</span></div></div>
+    <div class="tool-card"><h3>Simulación Industrial</h3><p>Modelos computacionales que replican el comportamiento de sistemas complejos para experimentar y optimizar sin alterar la realidad.</p><div class="tool-tags"><span class="tag">Arena</span><span class="tag">FlexSim</span><span class="tag">AnyLogic</span><span class="tag">Montecarlo</span></div></div>
+    <div class="tool-card"><h3>Estudio del Trabajo</h3><p>Análisis sistemático de métodos y tiempos para establecer estándares, balancear líneas y mejorar la eficiencia operativa.</p><div class="tool-tags"><span class="tag">Estudio de tiempos</span><span class="tag">Muestreo</span><span class="tag">OEE</span><span class="tag">Diagramas</span></div></div>
+    <div class="tool-card"><h3>Programación Lineal</h3><p>Técnica matemática de optimización para maximizar o minimizar una función objetivo bajo restricciones lineales: costos, recursos, producción.</p><div class="tool-tags"><span class="tag">Simplex</span><span class="tag">Branch & Bound</span><span class="tag">PERT/CPM</span><span class="tag">Solver</span></div></div>
+    <div class="tool-card"><h3>Industria 4.0</h3><p>Integración de tecnologías digitales en los sistemas productivos para crear fábricas inteligentes, flexibles y conectadas en tiempo real.</p><div class="tool-tags"><span class="tag">IoT</span><span class="tag">Big Data</span><span class="tag">IA/ML</span><span class="tag">Robots</span><span class="tag">Digital Twin</span></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 05 SECTORES (NUEVO) -->
+<section id="sectores">
+  <div class="section-label">05 — Aplicaciones</div>
+  <h2 class="section-title">SECTORES DE<br>APLICACIÓN</h2>
+  <p style="color:var(--muted); max-width:640px; margin-top:1rem;">El ingeniero industrial trabaja en prácticamente cualquier sector económico. Su perfil sistémico es aplicable allí donde existan procesos que optimizar.</p>
+  <div class="sectores-grid">
+    <div class="sector-card"><span class="sector-icon">🏭</span><h4>Manufactura</h4><p>Automóviles, alimentos, textil, electrónica, químicos.</p></div>
+    <div class="sector-card"><span class="sector-icon">🏥</span><h4>Salud</h4><p>Hospitales, clínicas, gestión de procesos médicos.</p></div>
+    <div class="sector-card"><span class="sector-icon">🛒</span><h4>Retail y Comercio</h4><p>Cadenas de tiendas, e-commerce, gestión de inventarios.</p></div>
+    <div class="sector-card"><span class="sector-icon">✈️</span><h4>Aeronáutica</h4><p>Mantenimiento, operaciones, cadena de suministro aeroespacial.</p></div>
+    <div class="sector-card"><span class="sector-icon">🏗️</span><h4>Construcción</h4><p>Gestión de obras, planificación de recursos y materiales.</p></div>
+    <div class="sector-card"><span class="sector-icon">💳</span><h4>Banca y Finanzas</h4><p>Optimización de procesos, control de riesgos operacionales.</p></div>
+    <div class="sector-card"><span class="sector-icon">⚡</span><h4>Energía</h4><p>Plantas eléctricas, oil & gas, energías renovables.</p></div>
+    <div class="sector-card"><span class="sector-icon">🎓</span><h4>Educación</h4><p>Gestión de instituciones educativas, diseño instruccional.</p></div>
+    <div class="sector-card"><span class="sector-icon">🚢</span><h4>Logística y Puertos</h4><p>Transporte, almacenamiento, distribución internacional.</p></div>
+    <div class="sector-card"><span class="sector-icon">🌾</span><h4>Agroindustria</h4><p>Procesamiento de alimentos, cadenas agrícolas eficientes.</p></div>
+    <div class="sector-card"><span class="sector-icon">💻</span><h4>Tecnología</h4><p>Startups tech, gestión ágil, optimización de equipos.</p></div>
+    <div class="sector-card"><span class="sector-icon">🏛️</span><h4>Gobierno</h4><p>Gestión pública, diseño de servicios eficientes para ciudadanos.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 06 COMPARATIVA (NUEVO) -->
+<section id="comparativa">
+  <div class="section-label">06 — Comparativa</div>
+  <h2 class="section-title">IE vs OTRAS<br>INGENIERÍAS</h2>
+  <p style="color:var(--muted); max-width:640px; margin-top:1rem; margin-bottom:0;">¿En qué se diferencia la Ingeniería Industrial de otras disciplinas de ingeniería?</p>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Aspecto</th>
+        <th>Industrial</th>
+        <th>Mecánica</th>
+        <th>Sistemas</th>
+        <th>Civil</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Enfoque principal</td><td>Sistemas y procesos</td><td>Máquinas y física</td><td>Software y hardware</td><td>Infraestructura</td></tr>
+      <tr><td>¿Trabaja con personas?</td><td><span class="badge badge-yes">Central</span></td><td><span class="badge badge-no">Secundario</span></td><td><span class="badge badge-no">Mínimo</span></td><td><span class="badge badge-med">Moderado</span></td></tr>
+      <tr><td>Aplicación multisector</td><td><span class="badge badge-yes">Alta</span></td><td><span class="badge badge-med">Media</span></td><td><span class="badge badge-yes">Alta</span></td><td><span class="badge badge-no">Baja</span></td></tr>
+      <tr><td>Gestión y liderazgo</td><td><span class="badge badge-yes">Sí</span></td><td><span class="badge badge-no">No</span></td><td><span class="badge badge-med">Parcial</span></td><td><span class="badge badge-no">No</span></td></tr>
+      <tr><td>Análisis financiero</td><td><span class="badge badge-yes">Sí</span></td><td><span class="badge badge-no">No</span></td><td><span class="badge badge-no">No</span></td><td><span class="badge badge-med">Parcial</span></td></tr>
+      <tr><td>Optimización matemática</td><td><span class="badge badge-yes">Central</span></td><td><span class="badge badge-med">Moderada</span></td><td><span class="badge badge-med">Moderada</span></td><td><span class="badge badge-no">Básica</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="divider"></div>
+
+<!-- 07 PERFIL -->
+<section id="perfil">
+  <div class="section-label">07 — Competencias</div>
+  <h2 class="section-title">PERFIL DEL<br>INGENIERO INDUSTRIAL</h2>
+  <div class="perfil-list">
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Pensamiento sistémico</strong> — Capacidad de ver el todo y sus partes, comprendiendo cómo interactúan los componentes de un sistema complejo.</p></div>
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Análisis cuantitativo</strong> — Dominio de herramientas matemáticas y estadísticas para modelar, analizar y resolver problemas de ingeniería.</p></div>
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Gestión de proyectos</strong> — Planificación, ejecución y control de proyectos bajo restricciones de tiempo, costo y alcance.</p></div>
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Liderazgo y trabajo en equipo</strong> — Capacidad de dirigir equipos multidisciplinarios y generar sinergias orientadas a resultados.</p></div>
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Toma de decisiones</strong> — Análisis riguroso de alternativas con criterios técnicos, económicos y estratégicos para elegir la mejor solución.</p></div>
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Mejora continua</strong> — Mentalidad orientada a la búsqueda permanente de oportunidades de optimización en cualquier proceso u organización.</p></div>
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Adaptabilidad tecnológica</strong> — Capacidad de incorporar nuevas tecnologías digitales en contextos productivos e industriales.</p></div>
+    <div class="perfil-item"><div class="check">✓</div><p><strong>Visión económica-financiera</strong> — Comprensión del impacto económico de las decisiones técnicas y capacidad de evaluar proyectos de inversión.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 08 SALIDAS -->
+<section id="salidas">
+  <div class="section-label">08 — Empleabilidad</div>
+  <h2 class="section-title">SALIDAS<br>LABORALES</h2>
+  <div class="salidas-grid">
+    <div class="salida-card"><div class="salida-num">01</div><div class="salida-icon">🏭</div><h3>Gerente de Producción</h3><p>Lidera operaciones de manufactura, optimiza recursos y garantiza el cumplimiento de metas productivas.</p></div>
+    <div class="salida-card"><div class="salida-num">02</div><div class="salida-icon">🚀</div><h3>Consultor de Procesos</h3><p>Asesora empresas de diversos sectores para identificar ineficiencias e implementar mejoras estratégicas.</p></div>
+    <div class="salida-card"><div class="salida-num">03</div><div class="salida-icon">🔗</div><h3>Gerente de Supply Chain</h3><p>Gestiona la cadena de suministro, proveedores, inventarios y distribución a nivel local o global.</p></div>
+    <div class="salida-card"><div class="salida-num">04</div><div class="salida-icon">📈</div><h3>Analista de Datos / BI</h3><p>Transforma grandes volúmenes de datos operacionales en insights para la toma de decisiones estratégicas.</p></div>
+    <div class="salida-card"><div class="salida-num">05</div><div class="salida-icon">⭐</div><h3>Gerente de Calidad</h3><p>Implementa sistemas de gestión de calidad, coordina auditorías y lidera iniciativas Lean y Six Sigma.</p></div>
+    <div class="salida-card"><div class="salida-num">06</div><div class="salida-icon">💡</div><h3>Emprendedor / Innovador</h3><p>Crea startups industriales, desarrolla productos y servicios aprovechando su visión sistémica y de procesos.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 09 FAQ (NUEVO) -->
+<section id="faq">
+  <div class="section-label">09 — Preguntas frecuentes</div>
+  <h2 class="section-title">PREGUNTAS<br>FRECUENTES</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Cuántos años dura la carrera de Ingeniería Industrial? <span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>En la mayoría de universidades latinoamericanas y españolas, la carrera tiene una duración de 5 años (10 semestres). En EE.UU. el programa de pregrado es de 4 años. Algunos países ofrecen también maestrías especializadas de 1-2 años adicionales en áreas como Lean, Six Sigma, Supply Chain o Gestión de Operaciones.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿La Ingeniería Industrial tiene mucha matemática? <span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Sí, tiene una base matemática sólida: cálculo, álgebra lineal, estadística y probabilidad son fundamentales. Sin embargo, se diferencia de otras ingenierías porque la matemática se aplica a la toma de decisiones, optimización y análisis de sistemas, no a física de materiales o diseño mecánico. Si te gusta resolver problemas con datos, la IE es ideal.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿En qué se diferencia de Administración de Empresas? <span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>La Ingeniería Industrial tiene una base técnica y cuantitativa mucho más profunda. Mientras que Administración se enfoca en gestión general, finanzas y marketing, la IE utiliza herramientas matemáticas, de simulación y de ingeniería para optimizar sistemas. Un ingeniero industrial puede tomar decisiones gerenciales con sustento técnico riguroso.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Tienen buenas perspectivas salariales los ingenieros industriales? <span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Sí. El ingeniero industrial es de las carreras con mayor demanda y salarios competitivos a nivel global. En Colombia, un recién egresado puede ganar entre $2.5M-$4M COP/mes, mientras que con experiencia en roles como Gerente de Operaciones o Consultor senior los salarios superan los $10M COP/mes. En EE.UU. el salario promedio supera los $90,000 USD/año.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Qué software debería aprender un ingeniero industrial? <span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Los más valorados son: Excel avanzado + Solver, Arena o FlexSim para simulación, AutoCAD o Plant Simulation para diseño de plantas, SAP/ERP para gestión empresarial, Minitab o R/Python para estadística y análisis de datos, y herramientas de visualización como Power BI o Tableau. Hoy en día, Python y SQL son cada vez más demandados en roles de ingeniería industrial con analítica de datos.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">¿Puede un ingeniero industrial trabajar en el sector salud? <span class="faq-icon">+</span></button>
+      <div class="faq-a"><p>Absolutamente. La Ingeniería Clínica o de Salud es un campo en crecimiento donde los ingenieros industriales optimizan flujos de pacientes, reducen tiempos de espera en urgencias, mejoran la gestión de inventarios de medicamentos, diseñan trazabilidad de equipos médicos y aplican Lean Healthcare para reducir costos sin afectar la calidad de atención.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 10 GLOSARIO (NUEVO) -->
+<section id="glosario">
+  <div class="section-label">10 — Terminología</div>
+  <h2 class="section-title">GLOSARIO<br>INDUSTRIAL</h2>
+  <p style="color:var(--muted); max-width:600px; margin-top:0.5rem;">Los términos más importantes que todo estudiante o profesional de la Ingeniería Industrial debe conocer.</p>
+  <div class="glosario-search">
+    <input type="text" id="glosario-input" placeholder="Buscar término..." oninput="filterGlosario(this.value)">
+  </div>
+  <div class="glosario-grid" id="glosario-grid">
+    <div class="glosario-item" data-term="just in time">
+      <h4>Just in Time (JIT)</h4>
+      <p>Filosofía de producción que busca fabricar solo lo necesario, en el momento exacto y en la cantidad requerida, eliminando inventarios innecesarios.</p>
+    </div>
+    <div class="glosario-item" data-term="kaizen">
+      <h4>Kaizen</h4>
+      <p>Término japonés que significa "mejora continua". Filosofía de realizar pequeñas mejoras constantes en los procesos con la participación de todos.</p>
+    </div>
+    <div class="glosario-item" data-term="oee eficiencia">
+      <h4>OEE</h4>
+      <p>Overall Equipment Effectiveness. Indicador que mide la eficiencia de una máquina o línea considerando disponibilidad, rendimiento y calidad.</p>
+    </div>
+    <div class="glosario-item" data-term="muda desperdicio">
+      <h4>Muda</h4>
+      <p>Término japonés para "desperdicio". En Lean se identifican 7 tipos: sobreproducción, esperas, transporte, sobreProcesamiento, inventario, movimiento y defectos.</p>
+    </div>
+    <div class="glosario-item" data-term="layout planta distribución">
+      <h4>Layout de Planta</h4>
+      <p>Distribución física de los recursos productivos (máquinas, estaciones de trabajo, almacenes) dentro de una instalación industrial.</p>
+    </div>
+    <div class="glosario-item" data-term="dmaic six sigma metodología">
+      <h4>DMAIC</h4>
+      <p>Metodología de Six Sigma: Definir, Medir, Analizar, Mejorar y Controlar. Marco estructurado para la resolución de problemas complejos.</p>
+    </div>
+    <div class="glosario-item" data-term="kanban tarjeta visual">
+      <h4>Kanban</h4>
+      <p>Sistema de gestión visual del trabajo que utiliza tarjetas o señales para controlar el flujo de producción y limitar el trabajo en curso (WIP).</p>
+    </div>
+    <div class="glosario-item" data-term="cpm pert ruta critica">
+      <h4>CPM / PERT</h4>
+      <p>Métodos de planificación de proyectos. CPM (Ruta Crítica) y PERT (Técnica de Revisión y Evaluación de Programas) para gestionar tiempos y dependencias.</p>
+    </div>
+    <div class="glosario-item" data-term="tir vpn evaluacion financiera">
+      <h4>TIR y VPN</h4>
+      <p>Tasa Interna de Retorno y Valor Presente Neto. Indicadores fundamentales para evaluar la viabilidad financiera de proyectos de inversión.</p>
+    </div>
+    <div class="glosario-item" data-term="smed cambio rápido herramienta">
+      <h4>SMED</h4>
+      <p>Single Minute Exchange of Die. Metodología para reducir los tiempos de cambio de herramienta o formato en líneas productivas a menos de 10 minutos.</p>
+    </div>
+    <div class="glosario-item" data-term="vsm mapa flujo valor">
+      <h4>Value Stream Mapping</h4>
+      <p>Herramienta Lean que mapea el flujo de materiales e información para identificar desperdicios y diseñar el estado futuro ideal del proceso.</p>
+    </div>
+    <div class="glosario-item" data-term="poka yoke error">
+      <h4>Poka-Yoke</h4>
+      <p>Dispositivo o mecanismo a prueba de errores que previene o detecta defectos antes de que ocurran o lleguen al siguiente proceso.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 11 RECURSOS (NUEVO) -->
+<section id="recursos">
+  <div class="section-label">11 — Aprende más</div>
+  <h2 class="section-title">RECURSOS<br>RECOMENDADOS</h2>
+  <div class="recursos-grid">
+    <div class="recurso-card">
+      <div class="recurso-type">📘 Libro clásico</div>
+      <h4>Introduction to Operations Research</h4>
+      <p>Hillier & Lieberman. La biblia de la Investigación de Operaciones. Cubre programación lineal, redes, teoría de colas y simulación.</p>
+      <a class="recurso-link" href="https://www.amazon.com/s?k=hillier+lieberman+operations+research" target="_blank">Ver en Amazon →</a>
+    </div>
+    <div class="recurso-card">
+      <div class="recurso-type">📗 Libro Lean</div>
+      <h4>La Máquina que Cambió el Mundo</h4>
+      <p>Womack, Jones & Roos. El libro que introdujo el concepto de Lean Manufacturing al mundo occidental y analiza el Sistema Toyota.</p>
+      <a class="recurso-link" href="https://www.amazon.com/s?k=la+maquina+que+cambio+el+mundo" target="_blank">Ver en Amazon →</a>
+    </div>
+    <div class="recurso-card">
+      <div class="recurso-type">📙 Six Sigma</div>
+      <h4>The Six Sigma Handbook</h4>
+      <p>Pyzdek & Keller. Guía completa para implementar Six Sigma en cualquier organización, con herramientas estadísticas detalladas.</p>
+      <a class="recurso-link" href="https://www.amazon.com/s?k=six+sigma+handbook+pyzdek" target="_blank">Ver en Amazon →</a>
+    </div>
+    <div class="recurso-card">
+      <div class="recurso-type">🎓 Curso online</div>
+      <h4>Lean Six Sigma — Coursera</h4>
+      <p>Universidad de Michigan. Certificación en Lean Six Sigma con proyectos prácticos. Ideal para complementar estudios o actualizar conocimientos.</p>
+      <a class="recurso-link" href="https://www.coursera.org/search?query=lean+six+sigma" target="_blank">Ver en Coursera →</a>
+    </div>
+    <div class="recurso-card">
+      <div class="recurso-type">🌐 Organización</div>
+      <h4>IIE — Institute of Industrial Engineers</h4>
+      <p>Organización global de referencia para ingenieros industriales. Publicaciones, eventos, certificaciones y red profesional mundial.</p>
+      <a class="recurso-link" href="https://www.iise.org" target="_blank">Visitar IISE →</a>
+    </div>
+    <div class="recurso-card">
+      <div class="recurso-type">📺 YouTube</div>
+      <h4>Lean Enterprise Institute</h4>
+      <p>Canal oficial del LEI con seminarios, casos de estudio y tutoriales sobre Lean Thinking aplicado a manufactura y servicios.</p>
+      <a class="recurso-link" href="https://www.youtube.com/@LeanEnterpriseInstitute" target="_blank">Ver canal →</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VIDEOTECA ESPECIALIZADA -->
+<section id="videoteca">
+  <div class="section-label">12 — Recursos Multimedia</div>
+  <h2 class="section-title">VIDEOTECA<br>INDUSTRIAL</h2>
+  <div class="recursos-grid">
+    <!-- Video 1 -->
+    <div class="recurso-card">
+      <div class="yt-thumb" data-id="P6xCELe16xo" onclick="playVideo(this)" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:1rem;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;">
+        <img src="https://img.youtube.com/vi/P6xCELe16xo/hqdefault.jpg" alt="Sistemas de Producción" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div>
+          </div>
+        </div>
+      </div>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--accent);margin-bottom:0.5rem;">Sistemas de Producción</h3>
+      <p>Análisis de flujos y procesos en la ingeniería moderna.</p>
+    </div>
+    <!-- Video 2 -->
+    <div class="recurso-card">
+      <div class="yt-thumb" data-id="k_lfzn7YSfI" onclick="playVideo(this)" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:1rem;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;">
+        <img src="https://img.youtube.com/vi/k_lfzn7YSfI/hqdefault.jpg" alt="Optimización de Procesos" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div>
+          </div>
+        </div>
+      </div>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--accent);margin-bottom:0.5rem;">Optimización de Procesos</h3>
+      <p>Metodologías aplicadas para la mejora de la eficiencia operativa.</p>
+    </div>
+    <!-- Video 3 -->
+    <div class="recurso-card">
+      <div class="yt-thumb" data-id="ahnt8hxTf-M" onclick="playVideo(this)" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:1rem;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;">
+        <img src="https://img.youtube.com/vi/ahnt8hxTf-M/hqdefault.jpg" alt="Logística y Supply Chain" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+          <div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+            <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div>
+          </div>
+        </div>
+      </div>
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--accent);margin-bottom:0.5rem;">Logística y Supply Chain</h3>
+      <p>Gestión integral del flujo de materiales e información.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BIBLIOTECA ACADÉMICA UNAL -->
+<section id="biblioteca">
+  <div class="section-label">13 — Biblioteca Digital</div>
+  <h2 class="section-title">REPOSITORIO<br>ACADÉMICO</h2>
+  <div class="recursos-grid">
+    <!-- Recurso 1 -->
+    <div class="recurso-card">
+      <div class="recurso-type">Infraestructura</div>
+      <h4>Puentes en los caminos de Caldas</h4>
+      <p>Galindo, J., et al. (2023). Evolución de armazones de madera a estructuras metálicas.</p>
+      <a href="https://repositorio.unal.edu.co/handle/unal/84711" target="_blank" class="recurso-link">Ver en Repositorio UNAL →</a>
+    </div>
+    <!-- Recurso 2 -->
+    <div class="recurso-card">
+      <div class="recurso-type">Fundamentos</div>
+      <h4>Fundamentos de Ingeniería Industrial</h4>
+      <p>Montoya, C. (2023). Bases teóricas y prácticas de la profesión.</p>
+      <a href="https://repositorio.unal.edu.co/handle/unal/84710" target="_blank" class="recurso-link">Ver en Repositorio UNAL →</a>
+    </div>
+    <!-- Recurso 3 -->
+    <div class="recurso-card">
+      <div class="recurso-type">Control / Software</div>
+      <h4>Matlab/Simulink: From Zero to Hero</h4>
+      <p>Prado-Rubio, Ó. A. (2023). Funcionalidades para control automático de procesos.</p>
+      <a href="https://repositorio.unal.edu.co/handle/unal/84709" target="_blank" class="recurso-link">Ver en Repositorio UNAL →</a>
+    </div>
+    <!-- Recurso 4 -->
+    <div class="recurso-card">
+      <div class="recurso-type">Investigación</div>
+      <h4>Investigación de Operaciones</h4>
+      <p>Rincón, L. A. (2001). Modelos matemáticos para toma de decisiones en ingeniería.</p>
+      <a href="https://repositorio.unal.edu.co/handle/unal/82812" target="_blank" class="recurso-link">Ver en Repositorio UNAL →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="section-label" style="text-align:center; display:block;">¿Listo para el siguiente paso?</div>
+  <h2>EL FUTURO ES<br>INDUSTRIAL</h2>
+  <p>La ingeniería industrial es una de las carreras más versátiles y demandadas del mundo. Diseña el futuro de la producción y los sistemas.</p>
+  <button class="btn" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Volver al inicio</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">ING. INDUSTRIAL</div>
+  <div class="footer-links">
+    <a href="#definicion">Definición</a>
+    <a href="#areas">Áreas</a>
+    <a href="#historia">Historia</a>
+    <a href="#herramientas">Herramientas</a>
+    <a href="#faq">FAQ</a>
+    <a href="#glosario">Glosario</a>
+    <a href="#videoteca">Videos</a>
+    <a href="#biblioteca">Libros</a>
+  </div>
+  <p>Guía educativa completa · 2024</p>
+</footer>
+
+<script>
+  // ── YouTube thumbnail → player
+  function playVideo(el) {
+    const id = el.dataset.id;
+    el.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;border:0;" allowfullscreen allow="autoplay"></iframe>`;
+  }
+
+  // ── Progress bar
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+    document.getElementById('progress-bar').style.width = (scrolled * 100) + '%';
+    document.getElementById('back-top').classList.toggle('visible', doc.scrollTop > 400);
+  });
+
+  // ── Timeline animation
+  const tlItems = document.querySelectorAll('.tl-item');
+  const tlObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); tlObserver.unobserve(e.target); } });
+  }, { threshold: 0.15 });
+  tlItems.forEach(i => tlObserver.observe(i));
+
+  // ── Nav active highlight
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.getAttribute('id'); });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+  });
+
+  // ── Hamburger
+  const ham = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  function closeMobile() { ham.classList.remove('open'); mobileMenu.classList.remove('open'); }
+
+  // ── FAQ accordion
+  function toggleFaq(btn) {
+    const answer = btn.nextElementSibling;
+    const isOpen = btn.classList.contains('open');
+    document.querySelectorAll('.faq-q.open').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
+    if (!isOpen) { btn.classList.add('open'); answer.classList.add('open'); }
+  }
+
+  // ── Glosario search
+  function filterGlosario(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('.glosario-item').forEach(item => {
+      const term = item.dataset.term || '';
+      const text = item.textContent.toLowerCase();
+      item.classList.toggle('hidden', q && !term.includes(q) && !text.includes(q));
+    });
+  }
+
+  // ── Fade-in on scroll (generic)
+  const fadeEls = document.querySelectorAll('.area-card, .tool-card, .sector-card, .salida-card, .recurso-card');
+  const fadeObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; fadeObs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  fadeEls.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; fadeObs.observe(el); });
+</script>
+</body>
+</html>
