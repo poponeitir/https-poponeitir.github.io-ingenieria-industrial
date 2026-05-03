@@ -392,6 +392,80 @@
     .salidas-grid { grid-template-columns: 1fr; }
     .sectores-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* ── BUSCADOR GLOBAL ── */
+  .search-btn {
+    background: none; border: 1px solid var(--border); border-radius: 50px;
+    cursor: pointer; padding: 5px 12px; display: flex; align-items: center; gap: 7px;
+    color: var(--muted); font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 1px; transition: all 0.2s; flex-shrink: 0;
+  }
+  .search-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .search-overlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+    align-items: flex-start; justify-content: center; padding-top: 10vh;
+  }
+  .search-overlay.open { display: flex; }
+
+  .search-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; width: 100%; max-width: 640px;
+    margin: 0 1.5rem; overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .search-input-wrap {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+  }
+  .search-input-wrap span { font-size: 1.1rem; color: var(--muted); }
+  .search-input-wrap input {
+    flex: 1; background: none; border: none; outline: none;
+    color: var(--text); font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 1.05rem; caret-color: var(--accent);
+  }
+  .search-input-wrap input::placeholder { color: var(--muted); }
+  .search-close {
+    background: none; border: none; cursor: pointer; color: var(--muted);
+    font-size: 1.2rem; padding: 4px 8px; border-radius: 6px; transition: color 0.2s;
+  }
+  .search-close:hover { color: var(--accent); }
+
+  .search-results {
+    max-height: 420px; overflow-y: auto; padding: 0.75rem 0;
+  }
+  .search-result-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 0.85rem 1.5rem; cursor: pointer; transition: background 0.15s;
+    text-decoration: none; color: var(--text);
+  }
+  .search-result-item:hover { background: var(--surface2); }
+  .search-result-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    letter-spacing: 2px; color: var(--accent); text-transform: uppercase;
+    min-width: 80px;
+  }
+  .search-result-title { font-size: 0.95rem; font-weight: 500; }
+  .search-result-desc { font-size: 0.8rem; color: var(--muted); margin-top: 1px; }
+  .search-empty {
+    padding: 2.5rem 1.5rem; text-align: center;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--muted);
+  }
+  .search-hint {
+    padding: 0.75rem 1.5rem; border-top: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
+    color: var(--muted); letter-spacing: 1px; display: flex; gap: 1.5rem;
+  }
+  .search-hint span { display: flex; align-items: center; gap: 5px; }
+  .search-hint kbd {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1px 6px; font-size: 0.7rem;
+  }
+  @media (max-width: 900px) {
+    .search-btn span:last-child { display: none; }
+    .search-btn { padding: 5px 8px; }
+  }
 </style>
 </head>
 <body>
@@ -418,6 +492,10 @@
     <li><a href="#videoteca">Videos</a></li>
     <li><a href="#biblioteca">Libros</a></li>
   </ul>
+  <button class="search-btn" id="search-btn" aria-label="Buscar">
+    <span>🔍</span>
+    <span>BUSCAR</span>
+  </button>
   <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
     <span class="toggle-icon">☀️</span>
     <span class="toggle-label">MODO</span>
@@ -426,6 +504,26 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
+
+
+<!-- BUSCADOR GLOBAL -->
+<div class="search-overlay" id="search-overlay">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span>🔍</span>
+      <input type="text" id="search-input" placeholder="Buscar en toda la guía..." autocomplete="off">
+      <button class="search-close" id="search-close">✕</button>
+    </div>
+    <div class="search-results" id="search-results">
+      <div class="search-empty">Escribe para buscar en las 13 secciones...</div>
+    </div>
+    <div class="search-hint">
+      <span><kbd>↵</kbd> ir a sección</span>
+      <span><kbd>Esc</kbd> cerrar</span>
+      <span><kbd>⌘K</kbd> abrir</span>
+    </div>
+  </div>
+</div>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobile-menu">
@@ -876,6 +974,71 @@
     const id = el.dataset.id;
     el.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;border:0;" allowfullscreen allow="autoplay"></iframe>`;
   }
+
+
+  // ── Buscador global
+  const SEARCH_INDEX = [
+    { section: '#definicion', tag: 'Fundamentos', title: '¿Qué es la Ingeniería Industrial?', desc: 'Definición, objetivos y enfoque sistémico' },
+    { section: '#areas', tag: 'Especialidades', title: 'Áreas de conocimiento', desc: 'Las 9 especialidades principales de la IE' },
+    { section: '#historia', tag: 'Historia', title: 'Historia y origen', desc: 'Evolución desde la Revolución Industrial' },
+    { section: '#herramientas', tag: 'Métodos', title: 'Herramientas y métodos', desc: 'Lean, Six Sigma, Kaizen, VSM, SMED, DMAIC' },
+    { section: '#sectores', tag: 'Aplicaciones', title: 'Sectores de aplicación', desc: 'Manufactura, salud, logística, tecnología' },
+    { section: '#comparativa', tag: 'Comparativa', title: 'IE vs otras ingenierías', desc: 'Tabla comparativa con otras ramas' },
+    { section: '#perfil', tag: 'Competencias', title: 'Perfil del ingeniero industrial', desc: 'Habilidades y competencias clave' },
+    { section: '#salidas', tag: 'Empleabilidad', title: 'Salidas laborales', desc: 'Roles y oportunidades profesionales' },
+    { section: '#faq', tag: 'FAQ', title: 'Preguntas frecuentes', desc: 'Dudas comunes sobre la carrera' },
+    { section: '#glosario', tag: 'Glosario', title: 'Glosario industrial', desc: 'Muda, Kanban, DMAIC, VSM, Poka-Yoke...' },
+    { section: '#recursos', tag: 'Recursos', title: 'Recursos recomendados', desc: 'Libros, cursos y organizaciones de referencia' },
+    { section: '#videoteca', tag: 'Videos', title: 'Videoteca industrial', desc: 'Producción, optimización y logística' },
+    { section: '#biblioteca', tag: 'Libros UNAL', title: 'Repositorio académico UNAL', desc: 'Publicaciones académicas disponibles online' },
+    { section: '#herramientas', tag: 'Método', title: 'Lean Manufacturing', desc: 'Eliminación de desperdicios y flujo continuo' },
+    { section: '#herramientas', tag: 'Método', title: 'Six Sigma', desc: 'Reducción de variabilidad y defectos DMAIC' },
+    { section: '#herramientas', tag: 'Método', title: 'Kaizen', desc: 'Mejora continua en pequeños pasos' },
+    { section: '#herramientas', tag: 'Método', title: 'Value Stream Mapping', desc: 'Mapa del flujo de valor VSM' },
+    { section: '#glosario', tag: 'Término', title: 'Muda', desc: 'Los 7 tipos de desperdicio en Lean' },
+    { section: '#glosario', tag: 'Término', title: 'Kanban', desc: 'Sistema de gestión visual del trabajo' },
+    { section: '#glosario', tag: 'Término', title: 'Poka-Yoke', desc: 'Dispositivo a prueba de errores' },
+    { section: '#glosario', tag: 'Término', title: 'Takt Time', desc: 'Ritmo de producción según demanda' },
+  ];
+
+  const searchOverlay = document.getElementById('search-overlay');
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+  const searchBtn = document.getElementById('search-btn');
+  const searchClose = document.getElementById('search-close');
+
+  function openSearch() {
+    searchOverlay.classList.add('open');
+    searchInput.value = '';
+    searchResults.innerHTML = '<div class="search-empty">Escribe para buscar en las 13 secciones...</div>';
+    setTimeout(() => searchInput.focus(), 50);
+  }
+  function closeSearch() { searchOverlay.classList.remove('open'); }
+
+  searchBtn.addEventListener('click', openSearch);
+  searchClose.addEventListener('click', closeSearch);
+  searchOverlay.addEventListener('click', e => { if (e.target === searchOverlay) closeSearch(); });
+
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape') closeSearch();
+  });
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    if (!q) { searchResults.innerHTML = '<div class="search-empty">Escribe para buscar en las 13 secciones...</div>'; return; }
+    const hits = SEARCH_INDEX.filter(item =>
+      item.title.toLowerCase().includes(q) ||
+      item.desc.toLowerCase().includes(q) ||
+      item.tag.toLowerCase().includes(q)
+    );
+    if (!hits.length) { searchResults.innerHTML = '<div class="search-empty">Sin resultados para "' + searchInput.value + '"</div>'; return; }
+    searchResults.innerHTML = hits.map(h => `
+      <a class="search-result-item" href="${h.section}" onclick="closeSearch()">
+        <div class="search-result-tag">${h.tag}</div>
+        <div><div class="search-result-title">${h.title}</div><div class="search-result-desc">${h.desc}</div></div>
+      </a>`).join('');
+  });
 
   // ── Theme toggle
   const themeBtn = document.getElementById('theme-toggle');
