@@ -1,6 +1,5 @@
-<div align="center">
+![Banner](https://github.com/poponeitir/https-poponeitir.github.io-ingenieria-industrial/blob/ea1c62f462484b99a5b70db942c11d4f244379cb/github_repo_banner_ingenieria_industrial.svg)
 
-<!-- Banner SVG embebido -->
 <svg width="800" height="340" viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
   <style>
     .bg{fill:#0a0a0a}.grid-line{stroke:rgba(245,166,35,0.07);stroke-width:0.8}.text-main{fill:#e8e4dc;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:900}.text-muted{fill:#888;font-family:'Helvetica Neue',Arial,sans-serif}.text-mono{fill:#f5a623;font-family:'Courier New',monospace}.gear-fill{fill:rgba(245,166,35,0.06);stroke:#f5a623;stroke-width:0.8}.dot{fill:rgba(245,166,35,0.35)}.tag-bg{fill:rgba(245,166,35,0.12);stroke:rgba(245,166,35,0.35);stroke-width:0.8}.tag-red{fill:rgba(232,72,85,0.12);stroke:rgba(232,72,85,0.35);stroke-width:0.8}.divline{stroke:rgba(245,166,35,0.3);stroke-width:0.8;fill:none}.stat-num{fill:#f5a623;font-family:'Helvetica Neue',Arial,sans-serif;font-weight:900}.stat-lbl{fill:#555;font-family:'Courier New',monospace}
