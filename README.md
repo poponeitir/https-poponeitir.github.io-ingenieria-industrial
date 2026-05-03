@@ -49,19 +49,19 @@ El proyecto está construido en **HTML, CSS y JavaScript puro** — sin framewor
 
 <br>
 
-![Hero – Ingeniería Industrial](assets/screenshot_hero.png)
+![Hero – Ingeniería Industrial](Heroe-Ingenieria%20Industrial.png)
 
 <br>
 
-![Recursos Recomendados](assets/screenshot_recursos.png)
+![Recursos Recomendados](Recursos%20recomendados.png)
 
 <br>
 
-![Ingeniería Industrial en Acción – Casos reales](assets/screenshot_casos.png)
+![Ingeniería Industrial en Acción – Casos reales](Ingenier%C3%ADa%20Industrial%20en%20accion%20-%20casos%20reales.png)
 
 <br>
 
-![Repositorio Académico](assets/screenshot_repositorio.png)
+![Repositorio Académico](Repositorio%20academico.png)
 
 </div>
 
@@ -131,14 +131,13 @@ Luego abre `index.html` en tu navegador. También puedes usar la extensión **Li
 
 ```
 📦 ingenieria-industrial/
-├── 📄 index.html           # Toda la aplicación en un solo archivo
-├── 📄 README.md            # Este archivo
-├── 📄 LICENSE              # Licencia MIT
-└── 📁 assets/
-    ├── 🖼 screenshot_hero.png
-    ├── 🖼 screenshot_recursos.png
-    ├── 🖼 screenshot_casos.png
-    └── 🖼 screenshot_repositorio.png
+├── 📄 index.html
+├── 📄 README.md
+├── 📄 LICENSE
+├── 🖼 Heroe-Ingenieria Industrial.png
+├── 🖼 Recursos recomendados.png
+├── 🖼 Ingeniería Industrial en accion - casos reales.png
+└── 🖼 Repositorio academico.png
 ```
 
 <div align="center">
@@ -179,6 +178,6 @@ Este proyecto está bajo la licencia **MIT** — puedes usarlo, modificarlo y di
 
 ---
 
-<sub>Hecho con ⚙️ · Ingeniería Industrial Guide · 2024</sub>
+<sub>Hecho con ⚙️ · Ingeniería Industrial Guide · 2026</sub>
 
 </div>
