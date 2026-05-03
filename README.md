@@ -1,3 +1,5 @@
+![Banner](https://github.com/poponeitir/https-poponeitir.github.io-ingenieria-industrial/blob/b31715ad461336a8e3a67538d85fac81f3971031/github_repo_banner_ingenieria_industrial.svg)
+
 # Guía Completa de Ingeniería Industrial ⚙️
 
 Este proyecto es una **plataforma educativa interactiva** diseñada para centralizar conocimientos fundamentales, herramientas y perspectivas actuales sobre la carrera de Ingeniería Industrial[cite: 2]. El sitio utiliza un diseño moderno con enfoque en la experiencia del usuario (UX) y una arquitectura de información sistémica[cite: 2].
