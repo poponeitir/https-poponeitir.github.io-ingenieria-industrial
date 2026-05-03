@@ -1,3 +1,5 @@
+<div align="center">
+
 ![Banner](https://github.com/poponeitir/https-poponeitir.github.io-ingenieria-industrial/blob/ea1c62f462484b99a5b70db942c11d4f244379cb/github_repo_banner_ingenieria_industrial.svg)
 
 ![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Activo-f5a623?style=flat-square&logo=github)
@@ -29,19 +31,45 @@
 
 ## 📖 Descripción
 
+<div align="center">
+
 Este repositorio contiene una **guía web completa sobre Ingeniería Industrial**, diseñada para estudiantes, profesionales y cualquier persona interesada en la disciplina. El sitio cubre desde los fundamentos históricos hasta herramientas modernas como Lean Manufacturing, Six Sigma y el Sistema Toyota.
 
 El proyecto está construido en **HTML, CSS y JavaScript puro** — sin frameworks, sin dependencias, sin instalación. Solo abre el archivo y funciona.
+
+</div>
 
 ---
 
 ## 🖥 Vista previa
 
+<div align="center">
+
 > El sitio está alojado en GitHub Pages. Incluye navegación fija, modo scroll con barra de progreso, menú móvil responsive, acordeón FAQ, buscador de glosario y videoteca interactiva.
+
+<br>
+
+![Hero – Ingeniería Industrial](assets/screenshot_hero.png)
+
+<br>
+
+![Recursos Recomendados](assets/screenshot_recursos.png)
+
+<br>
+
+![Ingeniería Industrial en Acción – Casos reales](assets/screenshot_casos.png)
+
+<br>
+
+![Repositorio Académico](assets/screenshot_repositorio.png)
+
+</div>
 
 ---
 
 ## 📚 Secciones del sitio
+
+<div align="center">
 
 | # | Sección | Contenido |
 |---|---------|-----------|
@@ -59,9 +87,13 @@ El proyecto está construido en **HTML, CSS y JavaScript puro** — sin framewor
 | 12 | **Videoteca industrial** | Videos seleccionados sobre producción y logística |
 | 13 | **Repositorio académico** | Publicaciones de la UNAL disponibles online |
 
+</div>
+
 ---
 
 ## 🛠 Tecnologías
+
+<div align="center">
 
 - **HTML5** — estructura semántica
 - **CSS3** — diseño responsivo con variables CSS, grid y flexbox
@@ -70,18 +102,28 @@ El proyecto está construido en **HTML, CSS y JavaScript puro** — sin framewor
 - **YouTube embed API** — videoteca con carga lazy (thumbnail → player)
 - **GitHub Pages** — despliegue gratuito
 
+</div>
+
 ---
 
 ## 💻 Cómo usar localmente
 
+<div align="center">
+
 No requiere instalación. Solo clona el repositorio y abre el archivo:
+
+</div>
 
 ```bash
 git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
 cd TU_REPOSITORIO
 ```
 
+<div align="center">
+
 Luego abre `index.html` en tu navegador. También puedes usar la extensión **Live Server** de VS Code para recarga automática.
+
+</div>
 
 ---
 
@@ -89,18 +131,31 @@ Luego abre `index.html` en tu navegador. También puedes usar la extensión **Li
 
 ```
 📦 ingenieria-industrial/
-├── 📄 index.html       # Toda la aplicación en un solo archivo
-├── 📄 README.md        # Este archivo
-└── 📄 LICENSE          # Licencia MIT
+├── 📄 index.html           # Toda la aplicación en un solo archivo
+├── 📄 README.md            # Este archivo
+├── 📄 LICENSE              # Licencia MIT
+└── 📁 assets/
+    ├── 🖼 screenshot_hero.png
+    ├── 🖼 screenshot_recursos.png
+    ├── 🖼 screenshot_casos.png
+    └── 🖼 screenshot_repositorio.png
 ```
 
+<div align="center">
+
 > El proyecto es intencionalmente un archivo único (`index.html`) para máxima portabilidad y simplicidad de despliegue.
+
+</div>
 
 ---
 
 ## 🤝 Contribuir
 
+<div align="center">
+
 ¿Encontraste un error o tienes una idea para mejorar el sitio? Las contribuciones son bienvenidas.
+
+</div>
 
 1. Haz un **fork** del repositorio
 2. Crea una rama: `git checkout -b mejora/descripcion-corta`
@@ -108,16 +163,22 @@ Luego abre `index.html` en tu navegador. También puedes usar la extensión **Li
 4. Haz commit: `git commit -m "feat: descripción del cambio"`
 5. Abre un **Pull Request** con una descripción clara de lo que cambiaste
 
+<div align="center">
+
 Para reportar errores o sugerir nuevas secciones, abre un [Issue](../../issues).
+
+</div>
 
 ---
 
 ## 📄 Licencia
 
+<div align="center">
+
 Este proyecto está bajo la licencia **MIT** — puedes usarlo, modificarlo y distribuirlo libremente con atribución.
 
 ---
 
-<div align="center">
 <sub>Hecho con ⚙️ · Ingeniería Industrial Guide · 2024</sub>
+
 </div>
