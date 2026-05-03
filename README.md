@@ -184,6 +184,6 @@ Este proyecto está bajo la licencia **MIT** — puedes usarlo, modificarlo y di
 
 ---
 
-<sub>Hecho con ⚙️ · Ingeniería Industrial Guide · 2024</sub>
+<sub>Hecho con ⚙️ · Ingeniería Industrial Guide · 2026</sub>
 
 </div>
