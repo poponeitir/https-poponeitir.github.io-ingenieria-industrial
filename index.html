@@ -466,6 +466,128 @@
     .search-btn span:last-child { display: none; }
     .search-btn { padding: 5px 8px; }
   }
+
+  /* ── CALCULADORAS ── */
+  .calc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
+  .calc-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 2rem; display: flex; flex-direction: column; gap: 1.2rem;
+  }
+  .calc-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; color: var(--accent); }
+  .calc-card p { font-size: 0.85rem; color: var(--muted); }
+  .calc-field { display: flex; flex-direction: column; gap: 0.4rem; }
+  .calc-field label { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+  .calc-field input {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 0.65rem 1rem; color: var(--text); font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem; outline: none; transition: border-color 0.2s; width: 100%;
+  }
+  .calc-field input:focus { border-color: var(--accent); }
+  .calc-btn {
+    background: var(--accent); color: #000; border: none; border-radius: 50px;
+    padding: 0.75rem 1.5rem; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; font-weight: 600; transition: all 0.2s; align-self: flex-start;
+  }
+  .calc-btn:hover { background: #ffbe4d; transform: translateY(-2px); }
+  .calc-result {
+    background: var(--surface2); border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0; padding: 1rem 1.2rem; display: none;
+  }
+  .calc-result.show { display: block; }
+  .calc-result .result-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--accent); line-height: 1; }
+  .calc-result .result-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); margin-top: 4px; }
+  .calc-result .result-tip { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; }
+  .oee-bars { display: flex; flex-direction: column; gap: 6px; margin-top: 0.75rem; }
+  .oee-bar-row { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+  .oee-bar-track { flex: 1; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
+  .oee-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
+  @media (max-width: 900px) { .calc-grid { grid-template-columns: 1fr; } }
+
+  /* ── QUIZ ── */
+  .quiz-wrap { margin-top: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; }
+  .quiz-progress-bar { width: 100%; height: 4px; background: var(--border); border-radius: 4px; margin-bottom: 2rem; overflow: hidden; }
+  .quiz-progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
+  .quiz-question { font-size: 1.1rem; font-weight: 500; color: var(--text); margin-bottom: 1.5rem; line-height: 1.5; }
+  .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; }
+  .quiz-option {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 0.85rem 1.2rem; cursor: pointer; font-size: 0.95rem; color: var(--text);
+    transition: all 0.2s; text-align: left; width: 100%;
+  }
+  .quiz-option:hover { border-color: var(--accent); background: var(--surface); }
+  .quiz-option.correct { border-color: #22c55e; background: rgba(34,197,94,0.1); color: #22c55e; }
+  .quiz-option.wrong { border-color: var(--accent2); background: rgba(232,72,85,0.1); color: var(--accent2); }
+  .quiz-option:disabled { cursor: default; }
+  .quiz-feedback { margin-top: 1rem; font-size: 0.9rem; color: var(--muted); min-height: 1.5rem; font-style: italic; }
+  .quiz-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; }
+  .quiz-counter { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 2px; }
+  .quiz-result-box { text-align: center; }
+  .quiz-score { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: var(--accent); line-height: 1; }
+  .quiz-score-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 3px; color: var(--muted); margin-bottom: 1rem; }
+  .quiz-score-msg { font-size: 1rem; color: var(--text); margin-bottom: 1.5rem; }
+
+
+  /* ── HERRAMIENTAS INTERACTIVAS ── */
+  .herr-tabs { display:flex; gap:0.5rem; margin-bottom:2rem; flex-wrap:wrap; }
+  .herr-tab {
+    padding:0.5rem 1.2rem; border:1px solid var(--border); border-radius:50px;
+    background:none; color:var(--muted); font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem; letter-spacing:1.5px; cursor:pointer; transition:all 0.2s;
+  }
+  .herr-tab.active, .herr-tab:hover { border-color:var(--accent); color:var(--accent); background:rgba(245,166,35,0.08); }
+  .herr-panel { display:none; }
+  .herr-panel.active { display:block; }
+
+  /* OEE */
+  .oee-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
+  .oee-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.5rem; }
+  .oee-block label { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:2px; color:var(--accent); display:block; margin-bottom:0.5rem; }
+  .oee-block input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:0.6rem 0.8rem; color:var(--text); font-size:1rem; font-family:'IBM Plex Mono',monospace; box-sizing:border-box; }
+  .oee-block input:focus { outline:none; border-color:var(--accent); }
+  .oee-block small { color:var(--muted); font-size:0.72rem; margin-top:0.4rem; display:block; }
+  .oee-result-box { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:2rem; margin-top:1rem; display:none; }
+  .oee-result-box.show { display:block; }
+  .oee-big { font-family:'Bebas Neue',sans-serif; font-size:4rem; color:var(--accent); line-height:1; }
+  .oee-bars { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin:1.5rem 0; }
+  .oee-bar-item label { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; letter-spacing:2px; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:0.4rem; }
+  .oee-bar-track { height:6px; background:var(--surface2); border-radius:3px; overflow:hidden; }
+  .oee-bar-fill { height:100%; border-radius:3px; background:var(--accent); transition:width 0.6s ease; }
+  .oee-badge { display:inline-block; padding:0.3rem 1rem; border-radius:50px; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; letter-spacing:2px; margin-top:0.5rem; }
+  .oee-tip { color:var(--muted); font-size:0.85rem; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); }
+  @media(max-width:700px){ .oee-grid{grid-template-columns:1fr;} .oee-bars{grid-template-columns:1fr;} }
+
+  /* TAKT TIME */
+  .tt-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
+  .tt-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.5rem; }
+  .tt-block label { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:2px; color:var(--accent); display:block; margin-bottom:0.5rem; }
+  .tt-block input, .tt-block select { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:0.6rem 0.8rem; color:var(--text); font-size:1rem; font-family:'IBM Plex Mono',monospace; box-sizing:border-box; }
+  .tt-block input:focus, .tt-block select:focus { outline:none; border-color:var(--accent); }
+  .tt-block small { color:var(--muted); font-size:0.72rem; margin-top:0.4rem; display:block; }
+  .tt-result-box { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:2rem; margin-top:1rem; display:none; }
+  .tt-result-box.show { display:block; }
+  .tt-results-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:1.5rem; }
+  .tt-result-card { background:var(--surface2); border-radius:12px; padding:1.2rem; text-align:center; }
+  .tt-result-num { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; color:var(--accent); }
+  .tt-result-lbl { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:2px; color:var(--muted); margin-top:0.3rem; }
+  .tt-tip { color:var(--muted); font-size:0.85rem; padding-top:1rem; border-top:1px solid var(--border); }
+  @media(max-width:700px){ .tt-grid{grid-template-columns:1fr;} .tt-results-row{grid-template-columns:1fr;} }
+
+  /* ISHIKAWA */
+  .ishi-setup { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem; }
+  .ishi-setup-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.5rem; }
+  .ishi-setup-block label { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:2px; color:var(--accent); display:block; margin-bottom:0.5rem; }
+  .ishi-setup-block input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:0.6rem 0.8rem; color:var(--text); font-size:0.95rem; font-family:'IBM Plex Sans',sans-serif; box-sizing:border-box; }
+  .ishi-setup-block input:focus { outline:none; border-color:var(--accent); }
+  .ishi-causas-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:1.5rem; }
+  .ishi-causa-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.2rem; }
+  .ishi-causa-block h5 { font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:2px; color:var(--accent); margin:0 0 0.75rem; text-transform:uppercase; }
+  .ishi-causa-block input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:0.45rem 0.6rem; color:var(--text); font-size:0.82rem; font-family:'IBM Plex Sans',sans-serif; box-sizing:border-box; margin-bottom:0.4rem; }
+  .ishi-causa-block input:focus { outline:none; border-color:var(--accent); }
+  .ishi-svg-wrap { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:1.5rem; margin-top:0.5rem; overflow-x:auto; display:none; }
+  .ishi-svg-wrap.show { display:block; }
+  @media(max-width:700px){ .ishi-setup{grid-template-columns:1fr;} .ishi-causas-grid{grid-template-columns:1fr 1fr;} }
+  @media(max-width:500px){ .ishi-causas-grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
@@ -491,6 +613,8 @@
     <li><a href="#glosario">Glosario</a></li>
     <li><a href="#videoteca">Videos</a></li>
     <li><a href="#biblioteca">Libros</a></li>
+    <li><a href="#calculadoras">Calcular</a></li>
+    <li><a href="#quiz">Quiz</a></li>
   </ul>
   <button class="search-btn" id="search-btn" aria-label="Buscar">
     <span>🔍</span>
@@ -538,6 +662,9 @@
   <a href="#glosario" onclick="closeMobile()">Glosario</a>
   <a href="#videoteca" onclick="closeMobile()">Videos</a>
   <a href="#biblioteca" onclick="closeMobile()">Libros</a>
+  <a href="#herramientas-calc" onclick="closeMobile()">Calculadoras</a>
+  <a href="#calculadoras" onclick="closeMobile()">Calcular</a>
+  <a href="#quiz" onclick="closeMobile()">Quiz</a>
 </div>
 
 <!-- HERO -->
@@ -944,6 +1071,247 @@
   </div>
 </section>
 
+
+<div class="divider"></div>
+
+<!-- CALCULADORAS -->
+<section id="calculadoras">
+  <div class="section-label">14 — Herramientas Interactivas</div>
+  <h2 class="section-title">CALCULADORAS<br>INDUSTRIALES</h2>
+  <div class="calc-grid">
+
+    <!-- OEE -->
+    <div class="calc-card">
+      <h3>Calculadora OEE</h3>
+      <p>Overall Equipment Effectiveness — el indicador gold standard de eficiencia productiva. Multiplica Disponibilidad × Rendimiento × Calidad.</p>
+      <div class="calc-field">
+        <label>Disponibilidad (%)</label>
+        <input type="number" id="oee-disp" placeholder="Ej: 90" min="0" max="100">
+      </div>
+      <div class="calc-field">
+        <label>Rendimiento (%)</label>
+        <input type="number" id="oee-rend" placeholder="Ej: 85" min="0" max="100">
+      </div>
+      <div class="calc-field">
+        <label>Calidad (%)</label>
+        <input type="number" id="oee-cal" placeholder="Ej: 95" min="0" max="100">
+      </div>
+      <button class="calc-btn" onclick="calcOEE()">Calcular OEE</button>
+      <div class="calc-result" id="oee-result">
+        <div class="result-num" id="oee-valor">—</div>
+        <div class="result-label">OEE TOTAL</div>
+        <div class="oee-bars">
+          <div class="oee-bar-row"><span style="min-width:110px">Disponibilidad</span><div class="oee-bar-track"><div class="oee-bar-fill" id="bar-disp"></div></div><span id="lbl-disp">0%</span></div>
+          <div class="oee-bar-row"><span style="min-width:110px">Rendimiento</span><div class="oee-bar-track"><div class="oee-bar-fill" id="bar-rend"></div></div><span id="lbl-rend">0%</span></div>
+          <div class="oee-bar-row"><span style="min-width:110px">Calidad</span><div class="oee-bar-track"><div class="oee-bar-fill" id="bar-cal"></div></div><span id="lbl-cal">0%</span></div>
+        </div>
+        <div class="result-tip" id="oee-tip"></div>
+      </div>
+    </div>
+
+    <!-- TAKT TIME -->
+    <div class="calc-card">
+      <h3>Takt Time & Tiempo de Ciclo</h3>
+      <p>El Takt Time es el ritmo al que debes producir para satisfacer la demanda. Si tu Tiempo de Ciclo es mayor al Takt, hay un cuello de botella.</p>
+      <div class="calc-field">
+        <label>Tiempo disponible de producción (min/día)</label>
+        <input type="number" id="tt-tiempo" placeholder="Ej: 480" min="1">
+      </div>
+      <div class="calc-field">
+        <label>Demanda del cliente (unidades/día)</label>
+        <input type="number" id="tt-demanda" placeholder="Ej: 240" min="1">
+      </div>
+      <div class="calc-field">
+        <label>Tu tiempo de ciclo actual (min/unidad)</label>
+        <input type="number" id="tt-ciclo" placeholder="Ej: 2.5" step="0.1" min="0">
+      </div>
+      <button class="calc-btn" onclick="calcTakt()">Calcular</button>
+      <div class="calc-result" id="tt-result">
+        <div class="result-num" id="tt-valor">—</div>
+        <div class="result-label">TAKT TIME (min/unidad)</div>
+        <div class="result-tip" id="tt-tip"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="section-label">15 — Pon a prueba tu conocimiento</div>
+  <h2 class="section-title">QUIZ<br>INDUSTRIAL</h2>
+  <div class="quiz-wrap">
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress"></div></div>
+    <div id="quiz-body"></div>
+  </div>
+</section>
+
+
+<div class="divider"></div>
+
+<!-- HERRAMIENTAS INTERACTIVAS -->
+<section id="herramientas-calc">
+  <div class="section-label">14 — Herramientas Interactivas</div>
+  <h2 class="section-title">CALCULADORAS<br>INDUSTRIALES</h2>
+  <p style="color:var(--muted);margin-bottom:2rem;max-width:600px;">Herramientas de cálculo y visualización para aplicar los conceptos de la guía en problemas reales.</p>
+
+  <div class="herr-tabs">
+    <button class="herr-tab active" onclick="showHerr('oee',this)">📊 OEE</button>
+    <button class="herr-tab" onclick="showHerr('takt',this)">⏱ Takt Time</button>
+    <button class="herr-tab" onclick="showHerr('ishi',this)">🐟 Ishikawa</button>
+  </div>
+
+  <!-- PANEL OEE -->
+  <div class="herr-panel active" id="herr-oee">
+    <div class="oee-grid">
+      <div class="oee-block">
+        <label>DISPONIBILIDAD</label>
+        <input type="number" id="oee-d" placeholder="Ej: 92" min="0" max="100" oninput="calcOEE()">
+        <small>Tiempo productivo / Tiempo planificado × 100</small>
+      </div>
+      <div class="oee-block">
+        <label>RENDIMIENTO</label>
+        <input type="number" id="oee-r" placeholder="Ej: 88" min="0" max="100" oninput="calcOEE()">
+        <small>Producción real / Producción teórica × 100</small>
+      </div>
+      <div class="oee-block">
+        <label>CALIDAD</label>
+        <input type="number" id="oee-q" placeholder="Ej: 98" min="0" max="100" oninput="calcOEE()">
+        <small>Piezas buenas / Total producido × 100</small>
+      </div>
+    </div>
+    <div class="oee-result-box" id="oee-result">
+      <div style="display:flex;align-items:flex-end;gap:1.5rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:2px;color:var(--muted);margin-bottom:0.3rem;">OEE TOTAL</div>
+          <div class="oee-big" id="oee-val">--</div>
+        </div>
+        <div>
+          <span class="oee-badge" id="oee-badge">--</span>
+        </div>
+      </div>
+      <div class="oee-bars">
+        <div class="oee-bar-item">
+          <label><span>DISPONIBILIDAD</span><span id="oee-d-lbl">--%</span></label>
+          <div class="oee-bar-track"><div class="oee-bar-fill" id="oee-d-bar" style="width:0%"></div></div>
+        </div>
+        <div class="oee-bar-item">
+          <label><span>RENDIMIENTO</span><span id="oee-r-lbl">--%</span></label>
+          <div class="oee-bar-track"><div class="oee-bar-fill" id="oee-r-bar" style="width:0%;background:#e84855"></div></div>
+        </div>
+        <div class="oee-bar-item">
+          <label><span>CALIDAD</span><span id="oee-q-lbl">--%</span></label>
+          <div class="oee-bar-track"><div class="oee-bar-fill" id="oee-q-bar" style="width:0%;background:#4caf7d"></div></div>
+        </div>
+      </div>
+      <div class="oee-tip" id="oee-tip"></div>
+    </div>
+  </div>
+
+  <!-- PANEL TAKT TIME -->
+  <div class="herr-panel" id="herr-takt">
+    <div class="tt-grid">
+      <div class="tt-block">
+        <label>TIEMPO DISPONIBLE</label>
+        <input type="number" id="tt-tiempo" placeholder="Ej: 480" min="1" oninput="calcTakt()">
+        <small>Minutos por turno (ej: 480 = 8 horas)</small>
+      </div>
+      <div class="tt-block">
+        <label>DEMANDA DEL CLIENTE</label>
+        <input type="number" id="tt-demanda" placeholder="Ej: 120" min="1" oninput="calcTakt()">
+        <small>Unidades requeridas por turno</small>
+      </div>
+      <div class="tt-block">
+        <label>TURNOS POR DÍA</label>
+        <select id="tt-turnos" onchange="calcTakt()">
+          <option value="1">1 turno</option>
+          <option value="2">2 turnos</option>
+          <option value="3">3 turnos</option>
+        </select>
+        <small>Número de turnos de producción</small>
+      </div>
+      <div class="tt-block">
+        <label>TIEMPO DE CICLO ACTUAL (opcional)</label>
+        <input type="number" id="tt-ciclo" placeholder="Ej: 3.5" min="0" step="0.1" oninput="calcTakt()">
+        <small>Minutos por unidad de tu proceso actual</small>
+      </div>
+    </div>
+    <div class="tt-result-box" id="tt-result">
+      <div class="tt-results-row">
+        <div class="tt-result-card">
+          <div class="tt-result-num" id="tt-takt-val">--</div>
+          <div class="tt-result-lbl">TAKT TIME (min)</div>
+        </div>
+        <div class="tt-result-card">
+          <div class="tt-result-num" id="tt-prod-val">--</div>
+          <div class="tt-result-lbl">CAPACIDAD / TURNO</div>
+        </div>
+        <div class="tt-result-card">
+          <div class="tt-result-num" id="tt-dia-val">--</div>
+          <div class="tt-result-lbl">CAPACIDAD / DÍA</div>
+        </div>
+      </div>
+      <div class="tt-tip" id="tt-tip"></div>
+    </div>
+  </div>
+
+  <!-- PANEL ISHIKAWA -->
+  <div class="herr-panel" id="herr-ishi">
+    <div class="ishi-setup">
+      <div class="ishi-setup-block">
+        <label>EFECTO / PROBLEMA PRINCIPAL</label>
+        <input type="text" id="ishi-efecto" placeholder="Ej: Alta tasa de defectos en línea A" oninput="renderIshi()">
+      </div>
+      <div class="ishi-setup-block" style="display:flex;align-items:flex-end;">
+        <button class="calc-btn" onclick="renderIshi()" style="width:100%">🐟 Generar Diagrama</button>
+      </div>
+    </div>
+    <div class="ishi-causas-grid">
+      <div class="ishi-causa-block">
+        <h5>👤 Mano de Obra</h5>
+        <input type="text" id="c1-1" placeholder="Causa 1" oninput="renderIshi()">
+        <input type="text" id="c1-2" placeholder="Causa 2" oninput="renderIshi()">
+        <input type="text" id="c1-3" placeholder="Causa 3" oninput="renderIshi()">
+      </div>
+      <div class="ishi-causa-block">
+        <h5>⚙️ Máquinas</h5>
+        <input type="text" id="c2-1" placeholder="Causa 1" oninput="renderIshi()">
+        <input type="text" id="c2-2" placeholder="Causa 2" oninput="renderIshi()">
+        <input type="text" id="c2-3" placeholder="Causa 3" oninput="renderIshi()">
+      </div>
+      <div class="ishi-causa-block">
+        <h5>🧪 Materiales</h5>
+        <input type="text" id="c3-1" placeholder="Causa 1" oninput="renderIshi()">
+        <input type="text" id="c3-2" placeholder="Causa 2" oninput="renderIshi()">
+        <input type="text" id="c3-3" placeholder="Causa 3" oninput="renderIshi()">
+      </div>
+      <div class="ishi-causa-block">
+        <h5>📋 Métodos</h5>
+        <input type="text" id="c4-1" placeholder="Causa 1" oninput="renderIshi()">
+        <input type="text" id="c4-2" placeholder="Causa 2" oninput="renderIshi()">
+        <input type="text" id="c4-3" placeholder="Causa 3" oninput="renderIshi()">
+      </div>
+      <div class="ishi-causa-block">
+        <h5>🌡 Medio Ambiente</h5>
+        <input type="text" id="c5-1" placeholder="Causa 1" oninput="renderIshi()">
+        <input type="text" id="c5-2" placeholder="Causa 2" oninput="renderIshi()">
+        <input type="text" id="c5-3" placeholder="Causa 3" oninput="renderIshi()">
+      </div>
+      <div class="ishi-causa-block">
+        <h5>📏 Medición</h5>
+        <input type="text" id="c6-1" placeholder="Causa 1" oninput="renderIshi()">
+        <input type="text" id="c6-2" placeholder="Causa 2" oninput="renderIshi()">
+        <input type="text" id="c6-3" placeholder="Causa 3" oninput="renderIshi()">
+      </div>
+    </div>
+    <div class="ishi-svg-wrap" id="ishi-svg-wrap">
+      <svg id="ishi-svg" width="100%" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <div class="cta-section">
   <div class="section-label" style="text-align:center; display:block;">¿Listo para el siguiente paso?</div>
@@ -964,6 +1332,8 @@
     <a href="#glosario">Glosario</a>
     <a href="#videoteca">Videos</a>
     <a href="#biblioteca">Libros</a>
+    <a href="#calculadoras">Calcular</a>
+    <a href="#quiz">Quiz</a>
   </div>
   <p>Guía educativa completa · 2024</p>
 </footer>
@@ -1109,6 +1479,215 @@
     entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; fadeObs.unobserve(e.target); } });
   }, { threshold: 0.08 });
   fadeEls.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; fadeObs.observe(el); });
+
+  // ── Calculadora OEE
+  function calcOEE() {
+    const d = parseFloat(document.getElementById('oee-disp').value);
+    const r = parseFloat(document.getElementById('oee-rend').value);
+    const c = parseFloat(document.getElementById('oee-cal').value);
+    if (isNaN(d)||isNaN(r)||isNaN(c)||d<0||r<0||c<0||d>100||r>100||c>100) { alert('Ingresa valores entre 0 y 100 en los tres campos.'); return; }
+    const oee = (d/100)*(r/100)*(c/100)*100;
+    document.getElementById('oee-valor').textContent = oee.toFixed(1) + '%';
+    document.getElementById('bar-disp').style.width = d + '%';
+    document.getElementById('bar-rend').style.width = r + '%';
+    document.getElementById('bar-cal').style.width = c + '%';
+    document.getElementById('lbl-disp').textContent = d + '%';
+    document.getElementById('lbl-rend').textContent = r + '%';
+    document.getElementById('lbl-cal').textContent = c + '%';
+    let tip = '';
+    if (oee >= 85) tip = '✅ Clase mundial. OEE ≥ 85% es el estándar de excelencia en manufactura.';
+    else if (oee >= 65) tip = '⚠️ Aceptable. Hay margen de mejora — analiza cuál de los tres factores es el cuello de botella.';
+    else tip = '🔴 Por debajo del estándar. Prioriza acciones de mejora inmediata con Lean o Six Sigma.';
+    document.getElementById('oee-tip').textContent = tip;
+    document.getElementById('oee-result').classList.add('show');
+  }
+
+  // ── Calculadora Takt Time
+  function calcTakt() {
+    const t = parseFloat(document.getElementById('tt-tiempo').value);
+    const d = parseFloat(document.getElementById('tt-demanda').value);
+    const c = parseFloat(document.getElementById('tt-ciclo').value);
+    if (isNaN(t)||isNaN(d)||t<=0||d<=0) { alert('Ingresa tiempo disponible y demanda válidos.'); return; }
+    const takt = t / d;
+    document.getElementById('tt-valor').textContent = takt.toFixed(2);
+    let tip = '';
+    if (!isNaN(c) && c > 0) {
+      if (c > takt) tip = '🔴 Cuello de botella: tu ciclo (' + c.toFixed(2) + ' min) supera el Takt (' + takt.toFixed(2) + ' min). No podrás cumplir la demanda — reduce el tiempo de ciclo.';
+      else if (c < takt * 0.8) tip = '⚠️ Tu ciclo (' + c.toFixed(2) + ' min) es mucho menor al Takt — posible sobreproducción. Considera balancear la línea.';
+      else tip = '✅ Tu tiempo de ciclo (' + c.toFixed(2) + ' min) está alineado con el Takt. La línea está bien balanceada.';
+    } else { tip = 'Ingresa tu tiempo de ciclo actual para ver si hay cuello de botella.'; }
+    document.getElementById('tt-tip').textContent = tip;
+    document.getElementById('tt-result').classList.add('show');
+  }
+
+  // ── Quiz Industrial
+  const QUIZ_DATA = [
+    { q: '¿Qué significa OEE?', opts: ['Overall Equipment Effectiveness','Operational Efficiency Engine','Output Evaluation Excellence','Overall Engineering Estimate'], ans: 0, exp: 'OEE = Disponibilidad × Rendimiento × Calidad. Es el indicador clave de eficiencia en manufactura.' },
+    { q: '¿Cuál es el objetivo principal del Lean Manufacturing?', opts: ['Aumentar la velocidad de las máquinas','Eliminar desperdicios (Muda) del proceso','Reducir el número de trabajadores','Incrementar el inventario de seguridad'], ans: 1, exp: 'Lean busca eliminar los 7 tipos de desperdicio (Muda) para maximizar el valor al cliente.' },
+    { q: '¿Qué es el Takt Time?', opts: ['El tiempo que tarda en fallar una máquina','El ritmo de producción requerido para satisfacer la demanda','El tiempo de setup entre turnos','La duración de un turno de trabajo'], ans: 1, exp: 'Takt Time = Tiempo disponible / Demanda. Marca el ritmo al que debe producir el proceso.' },
+    { q: 'En Six Sigma, ¿qué significa DMAIC?', opts: ['Define, Measure, Analyze, Improve, Control','Design, Make, Assemble, Inspect, Complete','Direct, Manage, Assign, Implement, Check','Deploy, Monitor, Assess, Improve, Close'], ans: 0, exp: 'DMAIC es la metodología estructurada de Six Sigma para resolver problemas complejos.' },
+    { q: '¿Qué es el Poka-Yoke?', opts: ['Un tipo de inventario japonés','Un mecanismo a prueba de errores','Un indicador de calidad Six Sigma','Un método de distribución de planta'], ans: 1, exp: 'Poka-Yoke son dispositivos que previenen o detectan errores antes de que ocurran o avancen al siguiente proceso.' },
+    { q: '¿Cuántos tipos de desperdicio (Muda) define Lean?', opts: ['5','6','7','8'], ans: 2, exp: 'Los 7 Mudas: sobreproducción, esperas, transporte, sobreprocesamiento, inventario, movimiento y defectos.' },
+    { q: '¿Qué herramienta mapea el flujo de valor de un proceso?', opts: ['Diagrama de Gantt','Value Stream Mapping (VSM)','Diagrama de Ishikawa','Carta de control'], ans: 1, exp: 'El VSM (Mapa del Flujo de Valor) identifica actividades que agregan y no agregan valor en un proceso.' },
+    { q: 'Un OEE del 85% o más se considera:', opts: ['Deficiente','Aceptable','Clase mundial','Imposible de alcanzar'], ans: 2, exp: 'OEE ≥ 85% es el estándar de clase mundial en manufactura según el benchmarking internacional.' },
+    { q: '¿Qué busca el SMED?', opts: ['Reducir defectos a cero','Reducir tiempos de cambio de herramienta a menos de 10 min','Mapear el flujo de valor','Estandarizar los turnos de trabajo'], ans: 1, exp: 'SMED (Single Minute Exchange of Die) reduce los tiempos de cambio/setup para aumentar la flexibilidad.' },
+    { q: '¿En qué se diferencia la Ingeniería Industrial de otras ingenierías?', opts: ['Se enfoca solo en manufactura','Trabaja exclusivamente con software','Tiene un enfoque sistémico y transversal aplicable a cualquier sector','Solo aplica en empresas grandes'], ans: 2, exp: 'La IE tiene un enfoque sistémico — optimiza sistemas de personas, materiales, información y equipos en cualquier tipo de organización.' },
+  ];
+
+  let quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+  function renderQuiz() {
+    const body = document.getElementById('quiz-body');
+    if (quizIdx >= QUIZ_DATA.length) {
+      const pct = Math.round((quizScore / QUIZ_DATA.length) * 100);
+      let msg = pct >= 80 ? '🏆 Excelente — tienes un sólido conocimiento de Ingeniería Industrial.' : pct >= 50 ? '📚 Buen intento — repasa las secciones de Herramientas y Glosario para reforzar.' : '🔧 Sigue estudiando — la guía tiene todo lo que necesitas para mejorar.';
+      body.innerHTML = '<div class="quiz-result-box"><div class="quiz-score">' + quizScore + '/' + QUIZ_DATA.length + '</div><div class="quiz-score-label">RESPUESTAS CORRECTAS · ' + pct + '%</div><div class="quiz-score-msg">' + msg + '</div><button class="calc-btn" onclick="quizIdx=0;quizScore=0;quizAnswered=false;renderQuiz()">Intentar de nuevo</button></div>';
+      document.getElementById('quiz-progress').style.width = '100%';
+      return;
+    }
+    const q = QUIZ_DATA[quizIdx];
+    document.getElementById('quiz-progress').style.width = ((quizIdx / QUIZ_DATA.length) * 100) + '%';
+    body.innerHTML = '<div class="quiz-question">' + (quizIdx+1) + '. ' + q.q + '</div><div class="quiz-options">' +
+      q.opts.map((o,i) => '<button class="quiz-option" onclick="answerQuiz(' + i + ')">' + o + '</button>').join('') +
+      '</div><div class="quiz-feedback" id="quiz-fb"></div><div class="quiz-nav"><span class="quiz-counter">' + (quizIdx+1) + ' / ' + QUIZ_DATA.length + '</span><button class="calc-btn" id="quiz-next" onclick="quizIdx++;quizAnswered=false;renderQuiz()" style="display:none">Siguiente →</button></div>';
+    quizAnswered = false;
+  }
+
+  function answerQuiz(i) {
+    if (quizAnswered) return;
+    quizAnswered = true;
+    const q = QUIZ_DATA[quizIdx];
+    const btns = document.querySelectorAll('.quiz-option');
+    btns.forEach(b => b.disabled = true);
+    if (i === q.ans) { btns[i].classList.add('correct'); quizScore++; document.getElementById('quiz-fb').textContent = '✅ ' + q.exp; }
+    else { btns[i].classList.add('wrong'); btns[q.ans].classList.add('correct'); document.getElementById('quiz-fb').textContent = '❌ ' + q.exp; }
+    document.getElementById('quiz-next').style.display = 'inline-flex';
+  }
+
+  renderQuiz();
+
+
+  // ── Herramientas tabs
+  function showHerr(id, btn) {
+    document.querySelectorAll('.herr-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.herr-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('herr-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── OEE Calculator
+  function calcOEE() {
+    const d = parseFloat(document.getElementById('oee-d').value);
+    const r = parseFloat(document.getElementById('oee-r').value);
+    const q = parseFloat(document.getElementById('oee-q').value);
+    if (isNaN(d) || isNaN(r) || isNaN(q)) return;
+    const oee = (d/100) * (r/100) * (q/100) * 100;
+    document.getElementById('oee-val').textContent = oee.toFixed(1) + '%';
+    document.getElementById('oee-d-lbl').textContent = d.toFixed(1) + '%';
+    document.getElementById('oee-r-lbl').textContent = r.toFixed(1) + '%';
+    document.getElementById('oee-q-lbl').textContent = q.toFixed(1) + '%';
+    document.getElementById('oee-d-bar').style.width = Math.min(d,100) + '%';
+    document.getElementById('oee-r-bar').style.width = Math.min(r,100) + '%';
+    document.getElementById('oee-q-bar').style.width = Math.min(q,100) + '%';
+    const badge = document.getElementById('oee-badge');
+    let tip = '';
+    if (oee >= 85) {
+      badge.textContent = '🏆 CLASE MUNDIAL'; badge.style.background = 'rgba(76,175,125,0.15)'; badge.style.color = '#4caf7d'; badge.style.border = '1px solid rgba(76,175,125,0.3)';
+      tip = '✅ OEE ≥ 85% es el estándar de clase mundial. Tu proceso está altamente optimizado.';
+    } else if (oee >= 60) {
+      badge.textContent = '📈 ACEPTABLE'; badge.style.background = 'rgba(245,166,35,0.15)'; badge.style.color = '#f5a623'; badge.style.border = '1px solid rgba(245,166,35,0.3)';
+      tip = '⚠️ OEE entre 60–85% es aceptable pero tiene margen de mejora. Analiza qué factor (D, R o Q) es el más bajo y aplica Lean o Six Sigma.';
+    } else {
+      badge.textContent = '🔴 CRÍTICO'; badge.style.background = 'rgba(232,72,85,0.15)'; badge.style.color = '#e84855'; badge.style.border = '1px solid rgba(232,72,85,0.3)';
+      tip = '❌ OEE < 60% indica pérdidas significativas. Prioriza el factor más bajo: ' + (d <= r && d <= q ? 'Disponibilidad (paros y averías)' : r <= q ? 'Rendimiento (velocidad reducida)' : 'Calidad (defectos y retrabajos)') + '.';
+    }
+    const weakest = d <= r && d <= q ? 'Disponibilidad' : r <= q ? 'Rendimiento' : 'Calidad';
+    tip += ' Factor más débil: ' + weakest + '.';
+    document.getElementById('oee-tip').textContent = tip;
+    document.getElementById('oee-result').classList.add('show');
+  }
+
+  // ── Takt Time Calculator
+  function calcTakt() {
+    const t = parseFloat(document.getElementById('tt-tiempo').value);
+    const dem = parseFloat(document.getElementById('tt-demanda').value);
+    const turnos = parseInt(document.getElementById('tt-turnos').value) || 1;
+    const ciclo = parseFloat(document.getElementById('tt-ciclo').value);
+    if (isNaN(t) || isNaN(dem) || dem === 0) return;
+    const takt = t / dem;
+    const capTurno = Math.floor(t / takt);
+    const capDia = capTurno * turnos;
+    document.getElementById('tt-takt-val').textContent = takt.toFixed(2);
+    document.getElementById('tt-prod-val').textContent = capTurno;
+    document.getElementById('tt-dia-val').textContent = capDia;
+    let tip = 'Takt Time: ' + takt.toFixed(2) + ' min/unidad — debes producir una unidad cada ' + (takt * 60).toFixed(0) + ' segundos para satisfacer la demanda.';
+    if (!isNaN(ciclo) && ciclo > 0) {
+      if (ciclo > takt * 1.05) tip += ' ⚠️ Tu ciclo (' + ciclo.toFixed(2) + ' min) supera el Takt — hay cuello de botella. Aplica SMED o balanceo de línea.';
+      else if (ciclo < takt * 0.8) tip += ' ⚠️ Tu ciclo (' + ciclo.toFixed(2) + ' min) es mucho menor al Takt — posible sobreproducción. Considera balancear la línea.';
+      else tip += ' ✅ Tu tiempo de ciclo (' + ciclo.toFixed(2) + ' min) está alineado con el Takt. Línea bien balanceada.';
+    }
+    document.getElementById('tt-tip').textContent = tip;
+    document.getElementById('tt-result').classList.add('show');
+  }
+
+  // ── Ishikawa Generator
+  function renderIshi() {
+    const efecto = document.getElementById('ishi-efecto').value.trim() || 'Efecto / Problema';
+    const cats = [
+      { label:'Mano de Obra', ids:['c1-1','c1-2','c1-3'], color:'#f5a623' },
+      { label:'Máquinas',     ids:['c2-1','c2-2','c2-3'], color:'#e84855' },
+      { label:'Materiales',   ids:['c3-1','c3-2','c3-3'], color:'#4caf7d' },
+      { label:'Métodos',      ids:['c4-1','c4-2','c4-3'], color:'#64b5f6' },
+      { label:'Medio Ambiente',ids:['c5-1','c5-2','c5-3'],color:'#ba68c8' },
+      { label:'Medición',     ids:['c6-1','c6-2','c6-3'], color:'#ffb74d' },
+    ];
+    const W = 900, H = 420, cx = 760, cy = H/2, boxW = 110, boxH = 44;
+    // Spine
+    let svg = '';
+    svg += '<rect width="900" height="420" fill="#0d0d0d" rx="12"/>';
+    svg += '<line x1="80" y1="' + cy + '" x2="' + (cx - boxW/2) + '" y2="' + cy + '" stroke="#f5a623" stroke-width="3"/>';
+    // Arrow head
+    svg += '<polygon points="' + (cx-boxW/2) + ',' + cy + ' ' + (cx-boxW/2-14) + ',' + (cy-7) + ' ' + (cx-boxW/2-14) + ',' + (cy+7) + '" fill="#f5a623"/>';
+    // Effect box
+    svg += '<rect x="' + (cx-boxW/2) + '" y="' + (cy-boxH/2) + '" width="' + boxW + '" height="' + boxH + '" rx="8" fill="#f5a623"/>';
+    const eff = efecto.length > 16 ? efecto.substring(0,14)+'…' : efecto;
+    svg += '<text x="' + cx + '" y="' + (cy+5) + '" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-weight="600" font-size="11" fill="#0a0a0a">' + eff + '</text>';
+
+    // 3 upper + 3 lower bones
+    const boneX  = [180, 340, 500, 240, 400, 560];
+    const boneTop = [true, true, true, false, false, false];
+    cats.forEach((cat, i) => {
+      const bx = boneX[i];
+      const top = boneTop[i];
+      const baseY = cy;
+      const tipY = top ? 70 : H - 70;
+      const midX = bx + (top ? 60 : 60);
+      // diagonal bone
+      svg += '<line x1="' + bx + '" y1="' + baseY + '" x2="' + midX + '" y2="' + tipY + '" stroke="' + cat.color + '" stroke-width="1.8" opacity="0.7"/>';
+      // category label
+      const labelY = top ? tipY - 14 : tipY + 22;
+      svg += '<text x="' + midX + '" y="' + labelY + '" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="' + cat.color + '" letter-spacing="1">' + cat.label.toUpperCase() + '</text>';
+      // sub-causes
+      cat.ids.forEach((id, j) => {
+        const val = document.getElementById(id).value.trim();
+        if (!val) return;
+        const t = (j + 1) / 4;
+        const px = bx + t * (midX - bx);
+        const py = baseY + t * (tipY - baseY);
+        const subLen = 55;
+        const sx = top ? px - subLen * 0.6 : px - subLen * 0.6;
+        const sy = top ? py - 28 : py + 28;
+        svg += '<line x1="' + px + '" y1="' + py + '" x2="' + sx + '" y2="' + sy + '" stroke="' + cat.color + '" stroke-width="1" opacity="0.5"/>';
+        const short = val.length > 13 ? val.substring(0,12)+'…' : val;
+        svg += '<text x="' + sx + '" y="' + (top ? sy - 5 : sy + 14) + '" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="8.5" fill="#c8c4bc">' + short + '</text>';
+      });
+    });
+
+    document.getElementById('ishi-svg').innerHTML = svg;
+    document.getElementById('ishi-svg-wrap').classList.add('show');
+  }
+
+
 </script>
 </body>
 </html>
