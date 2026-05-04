@@ -21,33 +21,7 @@
     --text: #e8e4dc;
     --muted: #888;
     --border: #2a2a2a;
-    --nav-bg: rgba(10,10,10,0.92);
-    --mobile-bg: rgba(10,10,10,0.97);
-    --grid-color: rgba(245,166,35,0.03);
   }
-
-  body.light-mode {
-    --bg: #f5f2ed;
-    --surface: #ffffff;
-    --surface2: #edeae4;
-    --text: #1a1a1a;
-    --muted: #666;
-    --border: #d8d3ca;
-    --nav-bg: rgba(245,242,237,0.92);
-    --mobile-bg: rgba(245,242,237,0.97);
-    --grid-color: rgba(180,130,20,0.05);
-  }
-
-  /* ── THEME TOGGLE ── */
-  .theme-toggle {
-    background: none; border: 1px solid var(--border); border-radius: 50px;
-    cursor: pointer; padding: 5px 12px; display: flex; align-items: center; gap: 7px;
-    color: var(--muted); font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 1px; transition: all 0.2s; flex-shrink: 0;
-  }
-  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
-  .theme-toggle .toggle-icon { font-size: 0.85rem; transition: transform 0.4s; }
-  body.light-mode .theme-toggle .toggle-icon { transform: rotate(180deg); }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -66,8 +40,8 @@
     position: fixed;
     inset: 0;
     background-image:
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      linear-gradient(rgba(245,166,35,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,166,35,0.03) 1px, transparent 1px);
     background-size: 60px 60px;
     pointer-events: none;
     z-index: 0;
@@ -75,71 +49,109 @@
 
   /* ── NAV ── */
   nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    background: var(--nav-bg);
-    backdrop-filter: blur(12px);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: var(--nav-bg); backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 2rem; height: 60px;
+    padding: 0 2rem; height: 60px; gap: 1rem;
   }
   .nav-logo {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.4rem; letter-spacing: 3px; color: var(--accent);
+    text-decoration: none; flex-shrink: 0;
   }
-  .nav-links { display: flex; gap: 1.8rem; list-style: none; }
-  .nav-links a {
-    color: var(--muted); text-decoration: none;
-    font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
-    font-family: 'IBM Plex Mono', monospace; transition: color 0.2s;
-  }
-  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+  /* Desktop nav links — hidden, everything goes in the drawer */
+  .nav-links { display: none; }
 
-  /* hamburger */
-  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-  .hamburger span { display: block; width: 22px; height: 2px; background: var(--muted); border-radius: 2px; transition: all 0.3s; }
-  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-right { display: flex; align-items: center; gap: 0.5rem; }
+
+  /* ── HAMBURGER ── */
+  .hamburger {
+    display: flex; flex-direction: column; justify-content: center;
+    gap: 5px; cursor: pointer; background: none;
+    border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px 10px; transition: border-color 0.2s;
+  }
+  .hamburger:hover { border-color: var(--accent); }
+  .hamburger span { display: block; width: 20px; height: 2px; background: var(--muted); border-radius: 2px; transition: all 0.3s; }
+  .hamburger.open { border-color: var(--accent); }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: var(--accent); }
   .hamburger.open span:nth-child(2) { opacity: 0; }
-  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: var(--accent); }
 
-  .mobile-menu {
-    display: none; position: fixed; top: 60px; left: 0; right: 0;
-    background: var(--mobile-bg); border-bottom: 1px solid var(--border);
-    flex-direction: column; padding: 1.5rem 2rem; gap: 1.5rem; z-index: 99;
+  /* ── DRAWER MENU (replaces both mobile-menu and nav-links) ── */
+  .drawer {
+    display: none; position: fixed; top: 60px; right: 0;
+    width: 280px; height: calc(100vh - 60px);
+    background: var(--mobile-bg); border-left: 1px solid var(--border);
+    flex-direction: column; overflow-y: auto; z-index: 99;
+    padding: 0; animation: slideIn 0.25s ease;
   }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a {
-    color: var(--muted); text-decoration: none; font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+  @keyframes slideIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: translateX(0); } }
+  .drawer.open { display: flex; }
+  .drawer-section { padding: 1.2rem 1.5rem 0.5rem; }
+  .drawer-section-label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem;
+    letter-spacing: 3px; color: var(--accent); text-transform: uppercase;
+    margin-bottom: 0.75rem; padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
   }
+  .drawer a {
+    display: flex; align-items: center; gap: 0.75rem;
+    color: var(--muted); text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 0.65rem 1.5rem; transition: all 0.2s; border-left: 2px solid transparent;
+  }
+  .drawer a:hover { color: var(--accent); background: rgba(245,166,35,0.05); border-left-color: var(--accent); }
+  .drawer a .drawer-num { color: var(--border); font-size: 0.65rem; min-width: 20px; }
+  .drawer-overlay {
+    display: none; position: fixed; inset: 0; z-index: 98;
+    background: rgba(0,0,0,0.4); backdrop-filter: blur(2px);
+  }
+  .drawer-overlay.open { display: block; }
 
   /* ── HERO ── */
   .hero {
     position: relative; z-index: 1; min-height: 100vh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 6rem 4rem 4rem; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: 6rem 4rem 4rem; overflow: hidden; text-align: center;
   }
   .hero-tag {
     font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
     letter-spacing: 4px; color: var(--accent); text-transform: uppercase;
     margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;
+    animation: fadeUp 0.6s ease both;
   }
-  .hero-tag::before { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--accent); }
+  .hero-tag::before,
+  .hero-tag::after { content: ''; display: inline-block; width: 40px; height: 1px; background: var(--accent); }
   .hero h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 12vw, 11rem); line-height: 0.9;
-    letter-spacing: 2px; color: var(--text); max-width: 900px;
+    font-size: clamp(4rem, 13vw, 12rem); line-height: 0.88;
+    letter-spacing: 2px; color: var(--text);
     animation: fadeUp 0.8s ease both;
   }
   .hero h1 span { color: var(--accent); }
   .hero-sub {
-    margin-top: 2rem; max-width: 560px; font-size: 1.1rem;
+    margin-top: 2rem; max-width: 580px; font-size: 1.1rem;
     color: var(--muted); font-weight: 300; animation: fadeUp 0.8s 0.2s ease both;
+    text-align: center;
   }
-  .hero-stats { display: flex; gap: 3rem; margin-top: 4rem; animation: fadeUp 0.8s 0.4s ease both; flex-wrap: wrap; }
-  .stat-item { display: flex; flex-direction: column; }
+  .hero-stats {
+    display: flex; gap: 0; margin-top: 4rem;
+    animation: fadeUp 0.8s 0.4s ease both; flex-wrap: wrap;
+    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    background: var(--surface);
+  }
+  .stat-item {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 1.5rem 2.5rem; border-right: 1px solid var(--border);
+    transition: background 0.3s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: var(--surface2); }
   .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--accent); line-height: 1; }
-  .stat-label { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 4px; }
+  .stat-label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 4px; }
 
   .hero-scroll {
     position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
@@ -152,8 +164,9 @@
   @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
 
   .hero-cog {
-    position: absolute; right: -80px; bottom: -60px;
-    width: 500px; height: 500px; opacity: 0.04; animation: spin 40s linear infinite;
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: 700px; height: 700px; opacity: 0.03; animation: spin 60s linear infinite;
+    pointer-events: none;
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -367,10 +380,7 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    .nav-links { display: none; }
     .hamburger { display: flex; }
-    .theme-toggle .toggle-label { display: none; }
-    .theme-toggle { padding: 5px 8px; }
     .hero { padding: 5rem 1.5rem 3rem; }
     section { padding: 3.5rem 1.5rem; }
     .def-grid { grid-template-columns: 1fr; gap: 2rem; }
@@ -393,142 +403,94 @@
     .sectores-grid { grid-template-columns: repeat(2, 1fr); }
   }
 
-  /* ── BUSCADOR GLOBAL ── */
+  /* ────────────────────────────────────────
+     LIGHT / DARK MODE
+  ──────────────────────────────────────── */
+  :root {
+    --nav-bg: rgba(10,10,10,0.92);
+    --mobile-bg: rgba(10,10,10,0.97);
+    --grid-color: rgba(245,166,35,0.03);
+  }
+  body.light-mode {
+    --bg: #f5f2ed; --surface: #ffffff; --surface2: #edeae4;
+    --text: #1a1a1a; --muted: #666; --border: #d8d3ca;
+    --nav-bg: rgba(245,242,237,0.92); --mobile-bg: rgba(245,242,237,0.97);
+    --grid-color: rgba(180,130,20,0.05);
+  }
+  .theme-toggle {
+    background:none; border:1px solid var(--border); border-radius:50px;
+    cursor:pointer; padding:5px 12px; display:flex; align-items:center; gap:7px;
+    color:var(--muted); font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem; letter-spacing:1px; transition:all 0.2s; flex-shrink:0;
+  }
+  .theme-toggle:hover { border-color:var(--accent); color:var(--accent); }
+  .toggle-icon { font-size:0.85rem; transition:transform 0.4s; }
+  body.light-mode .toggle-icon { transform:rotate(180deg); }
+
+  /* ────────────────────────────────────────
+     BUSCADOR GLOBAL
+  ──────────────────────────────────────── */
   .search-btn {
-    background: none; border: 1px solid var(--border); border-radius: 50px;
-    cursor: pointer; padding: 5px 12px; display: flex; align-items: center; gap: 7px;
-    color: var(--muted); font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 1px; transition: all 0.2s; flex-shrink: 0;
+    background:none; border:1px solid var(--border); border-radius:50px;
+    cursor:pointer; padding:5px 12px; display:flex; align-items:center; gap:7px;
+    color:var(--muted); font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem; letter-spacing:1px; transition:all 0.2s; flex-shrink:0;
   }
-  .search-btn:hover { border-color: var(--accent); color: var(--accent); }
-
+  .search-btn:hover { border-color:var(--accent); color:var(--accent); }
   .search-overlay {
-    display: none; position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
-    align-items: flex-start; justify-content: center; padding-top: 10vh;
+    display:none; position:fixed; inset:0; z-index:200;
+    background:rgba(0,0,0,0.75); backdrop-filter:blur(6px);
+    align-items:flex-start; justify-content:center; padding-top:10vh;
   }
-  .search-overlay.open { display: flex; }
-
+  .search-overlay.open { display:flex; }
   .search-box {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 16px; width: 100%; max-width: 640px;
-    margin: 0 1.5rem; overflow: hidden;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:16px; width:100%; max-width:640px; margin:0 1.5rem;
+    overflow:hidden; box-shadow:0 24px 60px rgba(0,0,0,0.5);
   }
   .search-input-wrap {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+    display:flex; align-items:center; gap:1rem;
+    padding:1.2rem 1.5rem; border-bottom:1px solid var(--border);
   }
-  .search-input-wrap span { font-size: 1.1rem; color: var(--muted); }
   .search-input-wrap input {
-    flex: 1; background: none; border: none; outline: none;
-    color: var(--text); font-family: 'IBM Plex Sans', sans-serif;
-    font-size: 1.05rem; caret-color: var(--accent);
+    flex:1; background:none; border:none; outline:none;
+    color:var(--text); font-family:'IBM Plex Sans',sans-serif;
+    font-size:1.05rem; caret-color:var(--accent);
   }
-  .search-input-wrap input::placeholder { color: var(--muted); }
+  .search-input-wrap input::placeholder { color:var(--muted); }
   .search-close {
-    background: none; border: none; cursor: pointer; color: var(--muted);
-    font-size: 1.2rem; padding: 4px 8px; border-radius: 6px; transition: color 0.2s;
+    background:none; border:none; cursor:pointer; color:var(--muted);
+    font-size:1.2rem; padding:4px 8px; border-radius:6px; transition:color 0.2s;
   }
-  .search-close:hover { color: var(--accent); }
-
-  .search-results {
-    max-height: 420px; overflow-y: auto; padding: 0.75rem 0;
-  }
+  .search-close:hover { color:var(--accent); }
+  .search-results { max-height:420px; overflow-y:auto; padding:0.75rem 0; }
   .search-result-item {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 0.85rem 1.5rem; cursor: pointer; transition: background 0.15s;
-    text-decoration: none; color: var(--text);
+    display:flex; align-items:center; gap:1rem; padding:0.85rem 1.5rem;
+    cursor:pointer; transition:background 0.15s; text-decoration:none; color:var(--text);
   }
-  .search-result-item:hover { background: var(--surface2); }
+  .search-result-item:hover { background:var(--surface2); }
   .search-result-tag {
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
-    letter-spacing: 2px; color: var(--accent); text-transform: uppercase;
-    min-width: 80px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.62rem;
+    letter-spacing:2px; color:var(--accent); min-width:90px;
   }
-  .search-result-title { font-size: 0.95rem; font-weight: 500; }
-  .search-result-desc { font-size: 0.8rem; color: var(--muted); margin-top: 1px; }
-  .search-empty {
-    padding: 2.5rem 1.5rem; text-align: center;
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--muted);
-  }
+  .search-result-title { font-size:0.95rem; font-weight:500; }
+  .search-result-desc { font-size:0.8rem; color:var(--muted); margin-top:1px; }
+  .search-empty { padding:2.5rem 1.5rem; text-align:center; font-family:'IBM Plex Mono',monospace; font-size:0.85rem; color:var(--muted); }
   .search-hint {
-    padding: 0.75rem 1.5rem; border-top: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem;
-    color: var(--muted); letter-spacing: 1px; display: flex; gap: 1.5rem;
+    padding:0.75rem 1.5rem; border-top:1px solid var(--border);
+    font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
+    color:var(--muted); letter-spacing:1px; display:flex; gap:1.5rem;
   }
-  .search-hint span { display: flex; align-items: center; gap: 5px; }
-  .search-hint kbd {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 4px; padding: 1px 6px; font-size: 0.7rem;
-  }
-  @media (max-width: 900px) {
-    .search-btn span:last-child { display: none; }
-    .search-btn { padding: 5px 8px; }
-  }
+  .search-hint kbd { background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-size:0.7rem; }
 
-  /* ── CALCULADORAS ── */
-  .calc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 3rem; }
-  .calc-card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
-    padding: 2rem; display: flex; flex-direction: column; gap: 1.2rem;
-  }
-  .calc-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; color: var(--accent); }
-  .calc-card p { font-size: 0.85rem; color: var(--muted); }
-  .calc-field { display: flex; flex-direction: column; gap: 0.4rem; }
-  .calc-field label { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
-  .calc-field input {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
-    padding: 0.65rem 1rem; color: var(--text); font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.95rem; outline: none; transition: border-color 0.2s; width: 100%;
-  }
-  .calc-field input:focus { border-color: var(--accent); }
-  .calc-btn {
-    background: var(--accent); color: #000; border: none; border-radius: 50px;
-    padding: 0.75rem 1.5rem; font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
-    cursor: pointer; font-weight: 600; transition: all 0.2s; align-self: flex-start;
-  }
-  .calc-btn:hover { background: #ffbe4d; transform: translateY(-2px); }
-  .calc-result {
-    background: var(--surface2); border-left: 3px solid var(--accent);
-    border-radius: 0 8px 8px 0; padding: 1rem 1.2rem; display: none;
-  }
-  .calc-result.show { display: block; }
-  .calc-result .result-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--accent); line-height: 1; }
-  .calc-result .result-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 2px; color: var(--muted); margin-top: 4px; }
-  .calc-result .result-tip { font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem; }
-  .oee-bars { display: flex; flex-direction: column; gap: 6px; margin-top: 0.75rem; }
-  .oee-bar-row { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--muted); }
-  .oee-bar-track { flex: 1; background: var(--border); border-radius: 4px; height: 6px; overflow: hidden; }
-  .oee-bar-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.5s ease; width: 0%; }
-  @media (max-width: 900px) { .calc-grid { grid-template-columns: 1fr; } }
+  /* ────────────────────────────────────────
+     VIDEOTECA & BIBLIOTECA
+  ──────────────────────────────────────── */
+  .yt-thumb { cursor:pointer; }
 
-  /* ── QUIZ ── */
-  .quiz-wrap { margin-top: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem; }
-  .quiz-progress-bar { width: 100%; height: 4px; background: var(--border); border-radius: 4px; margin-bottom: 2rem; overflow: hidden; }
-  .quiz-progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
-  .quiz-question { font-size: 1.1rem; font-weight: 500; color: var(--text); margin-bottom: 1.5rem; line-height: 1.5; }
-  .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; }
-  .quiz-option {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
-    padding: 0.85rem 1.2rem; cursor: pointer; font-size: 0.95rem; color: var(--text);
-    transition: all 0.2s; text-align: left; width: 100%;
-  }
-  .quiz-option:hover { border-color: var(--accent); background: var(--surface); }
-  .quiz-option.correct { border-color: #22c55e; background: rgba(34,197,94,0.1); color: #22c55e; }
-  .quiz-option.wrong { border-color: var(--accent2); background: rgba(232,72,85,0.1); color: var(--accent2); }
-  .quiz-option:disabled { cursor: default; }
-  .quiz-feedback { margin-top: 1rem; font-size: 0.9rem; color: var(--muted); min-height: 1.5rem; font-style: italic; }
-  .quiz-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; }
-  .quiz-counter { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; color: var(--muted); letter-spacing: 2px; }
-  .quiz-result-box { text-align: center; }
-  .quiz-score { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: var(--accent); line-height: 1; }
-  .quiz-score-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; letter-spacing: 3px; color: var(--muted); margin-bottom: 1rem; }
-  .quiz-score-msg { font-size: 1rem; color: var(--text); margin-bottom: 1.5rem; }
-
-
-  /* ── HERRAMIENTAS INTERACTIVAS ── */
+  /* ────────────────────────────────────────
+     CALCULADORAS (OEE, TAKT, ISHIKAWA)
+  ──────────────────────────────────────── */
   .herr-tabs { display:flex; gap:0.5rem; margin-bottom:2rem; flex-wrap:wrap; }
   .herr-tab {
     padding:0.5rem 1.2rem; border:1px solid var(--border); border-radius:50px;
@@ -538,8 +500,6 @@
   .herr-tab.active, .herr-tab:hover { border-color:var(--accent); color:var(--accent); background:rgba(245,166,35,0.08); }
   .herr-panel { display:none; }
   .herr-panel.active { display:block; }
-
-  /* OEE */
   .oee-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
   .oee-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.5rem; }
   .oee-block label { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:2px; color:var(--accent); display:block; margin-bottom:0.5rem; }
@@ -555,9 +515,6 @@
   .oee-bar-fill { height:100%; border-radius:3px; background:var(--accent); transition:width 0.6s ease; }
   .oee-badge { display:inline-block; padding:0.3rem 1rem; border-radius:50px; font-family:'IBM Plex Mono',monospace; font-size:0.75rem; letter-spacing:2px; margin-top:0.5rem; }
   .oee-tip { color:var(--muted); font-size:0.85rem; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border); }
-  @media(max-width:700px){ .oee-grid{grid-template-columns:1fr;} .oee-bars{grid-template-columns:1fr;} }
-
-  /* TAKT TIME */
   .tt-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem; }
   .tt-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.5rem; }
   .tt-block label { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:2px; color:var(--accent); display:block; margin-bottom:0.5rem; }
@@ -571,9 +528,6 @@
   .tt-result-num { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; color:var(--accent); }
   .tt-result-lbl { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:2px; color:var(--muted); margin-top:0.3rem; }
   .tt-tip { color:var(--muted); font-size:0.85rem; padding-top:1rem; border-top:1px solid var(--border); }
-  @media(max-width:700px){ .tt-grid{grid-template-columns:1fr;} .tt-results-row{grid-template-columns:1fr;} }
-
-  /* ISHIKAWA */
   .ishi-setup { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:1.5rem; }
   .ishi-setup-block { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:1.5rem; }
   .ishi-setup-block label { font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:2px; color:var(--accent); display:block; margin-bottom:0.5rem; }
@@ -586,8 +540,72 @@
   .ishi-causa-block input:focus { outline:none; border-color:var(--accent); }
   .ishi-svg-wrap { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:1.5rem; margin-top:0.5rem; overflow-x:auto; display:none; }
   .ishi-svg-wrap.show { display:block; }
-  @media(max-width:700px){ .ishi-setup{grid-template-columns:1fr;} .ishi-causas-grid{grid-template-columns:1fr 1fr;} }
-  @media(max-width:500px){ .ishi-causas-grid{grid-template-columns:1fr;} }
+  .calc-btn {
+    background:var(--accent); color:#000; border:none; border-radius:8px;
+    padding:0.7rem 1.8rem; font-family:'IBM Plex Mono',monospace; font-size:0.8rem;
+    letter-spacing:1.5px; cursor:pointer; font-weight:600; transition:all 0.2s;
+    display:inline-flex; align-items:center; gap:0.5rem;
+  }
+  .calc-btn:hover { background:#ffbe4d; transform:translateY(-1px); }
+
+  /* ────────────────────────────────────────
+     TIMELINE INTERACTIVO
+  ──────────────────────────────────────── */
+  .timeline-wrap { position:relative; padding-left:2.5rem; }
+  .timeline-wrap::before { content:''; position:absolute; left:0; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, var(--accent), transparent); }
+  .tl-card { position:relative; margin-bottom:1.5rem; cursor:pointer; }
+  .tl-card::before { content:''; position:absolute; left:-2.9rem; top:1rem; width:12px; height:12px; border-radius:50%; background:var(--surface2); border:2px solid var(--border); transition:all 0.3s; }
+  .tl-card.active::before { background:var(--accent); border-color:var(--accent); box-shadow:0 0 12px rgba(245,166,35,0.5); }
+  .tl-card-head { display:flex; align-items:center; gap:1rem; padding:1rem 1.2rem; background:var(--surface); border:1px solid var(--border); border-radius:12px; transition:all 0.3s; flex-wrap:wrap; }
+  .tl-card:hover .tl-card-head, .tl-card.active .tl-card-head { border-color:var(--accent); background:rgba(245,166,35,0.05); }
+  .tl-year { font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--accent); min-width:60px; }
+  .tl-title { font-weight:600; font-size:0.95rem; flex:1; }
+  .tl-tag { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:2px; color:var(--muted); padding:2px 8px; border:1px solid var(--border); border-radius:50px; }
+  .tl-arrow { color:var(--muted); transition:transform 0.3s; font-size:0.8rem; }
+  .tl-card.active .tl-arrow { transform:rotate(180deg); color:var(--accent); }
+  .tl-body { max-height:0; overflow:hidden; transition:max-height 0.4s ease, opacity 0.3s; opacity:0; }
+  .tl-card.active .tl-body { max-height:300px; opacity:1; }
+  .tl-body-inner { padding:1.2rem 1.2rem 0.5rem; color:var(--muted); font-size:0.88rem; line-height:1.7; border-left:2px solid var(--accent); margin-top:0.5rem; }
+  .tl-body-inner strong { color:var(--text); }
+
+  /* ────────────────────────────────────────
+     CASOS REALES
+  ──────────────────────────────────────── */
+  .casos-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+  .caso-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden; transition:border-color 0.3s,transform 0.3s; }
+  .caso-card:hover { border-color:var(--accent); transform:translateY(-3px); }
+  .caso-header { padding:1.5rem 1.5rem 1rem; display:flex; align-items:center; gap:1rem; border-bottom:1px solid var(--border); }
+  .caso-logo { font-size:2rem; width:52px; height:52px; display:flex; align-items:center; justify-content:center; background:var(--surface2); border-radius:12px; flex-shrink:0; }
+  .caso-company { font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:1px; }
+  .caso-sector { font-family:'IBM Plex Mono',monospace; font-size:0.65rem; letter-spacing:2px; color:var(--muted); }
+  .caso-body { padding:1.2rem 1.5rem 1.5rem; }
+  .caso-problema { font-size:0.8rem; color:var(--muted); margin-bottom:0.75rem; font-style:italic; }
+  .caso-tools { display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:1rem; }
+  .caso-tool-tag { font-family:'IBM Plex Mono',monospace; font-size:0.62rem; letter-spacing:1px; padding:2px 8px; background:rgba(245,166,35,0.1); border:1px solid rgba(245,166,35,0.25); border-radius:50px; color:var(--accent); }
+  .caso-resultado { font-size:0.88rem; line-height:1.65; }
+  .caso-metric { display:inline-block; font-family:'Bebas Neue',sans-serif; font-size:1.3rem; color:var(--accent); margin-right:0.3rem; }
+
+  /* ────────────────────────────────────────
+     RESPONSIVE ADDITIONS
+  ──────────────────────────────────────── */
+  @media(max-width:900px){
+    .search-btn span:last-child { display:none; }
+    .search-btn { padding:5px 8px; }
+    .theme-toggle span:last-child { display:none; }
+    .theme-toggle { padding:5px 8px; }
+  }
+  @media(max-width:700px){
+    .oee-grid { grid-template-columns:1fr; }
+    .oee-bars { grid-template-columns:1fr; }
+    .tt-grid { grid-template-columns:1fr; }
+    .tt-results-row { grid-template-columns:1fr; }
+    .ishi-setup { grid-template-columns:1fr; }
+    .ishi-causas-grid { grid-template-columns:1fr 1fr; }
+    .casos-grid { grid-template-columns:1fr; }
+  }
+  @media(max-width:500px){
+    .ishi-causas-grid { grid-template-columns:1fr; }
+  }
 </style>
 </head>
 <body>
@@ -601,35 +619,20 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">ING. INDUSTRIAL</div>
-  <ul class="nav-links">
-    <li><a href="#definicion">Definición</a></li>
-    <li><a href="#areas">Áreas</a></li>
-    <li><a href="#historia">Historia</a></li>
-    <li><a href="#herramientas">Herramientas</a></li>
-    <li><a href="#sectores">Sectores</a></li>
-    <li><a href="#perfil">Perfil</a></li>
-    <li><a href="#salidas">Salidas</a></li>
-    <li><a href="#faq">FAQ</a></li>
-    <li><a href="#glosario">Glosario</a></li>
-    <li><a href="#videoteca">Videos</a></li>
-    <li><a href="#biblioteca">Libros</a></li>
-    <li><a href="#calculadoras">Calcular</a></li>
-    <li><a href="#quiz">Quiz</a></li>
-  </ul>
-  <button class="search-btn" id="search-btn" aria-label="Buscar">
-    <span>🔍</span>
-    <span>BUSCAR</span>
-  </button>
-  <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
-    <span class="toggle-icon">☀️</span>
-    <span class="toggle-label">MODO</span>
-  </button>
-  <button class="hamburger" id="hamburger" aria-label="Menú">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="nav-right">
+    <button class="search-btn" id="search-btn" aria-label="Buscar">
+      <span>🔍</span><span>BUSCAR</span>
+    </button>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema">
+      <span class="toggle-icon">☀️</span><span>MODO</span>
+    </button>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
-
+<!-- MOBILE MENU -->
 <!-- BUSCADOR GLOBAL -->
 <div class="search-overlay" id="search-overlay">
   <div class="search-box">
@@ -639,32 +642,42 @@
       <button class="search-close" id="search-close">✕</button>
     </div>
     <div class="search-results" id="search-results">
-      <div class="search-empty">Escribe para buscar en las 13 secciones...</div>
+      <div class="search-empty">Escribe para buscar en las secciones...</div>
     </div>
     <div class="search-hint">
-      <span><kbd>↵</kbd> ir a sección</span>
+      <span><kbd>↵</kbd> ir</span>
       <span><kbd>Esc</kbd> cerrar</span>
-      <span><kbd>⌘K</kbd> abrir</span>
+      <span><kbd>Ctrl+K</kbd> abrir</span>
     </div>
   </div>
 </div>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobile-menu">
-  <a href="#definicion" onclick="closeMobile()">Definición</a>
-  <a href="#areas" onclick="closeMobile()">Áreas</a>
-  <a href="#historia" onclick="closeMobile()">Historia</a>
-  <a href="#herramientas" onclick="closeMobile()">Herramientas</a>
-  <a href="#sectores" onclick="closeMobile()">Sectores</a>
-  <a href="#perfil" onclick="closeMobile()">Perfil</a>
-  <a href="#salidas" onclick="closeMobile()">Salidas</a>
-  <a href="#faq" onclick="closeMobile()">FAQ</a>
-  <a href="#glosario" onclick="closeMobile()">Glosario</a>
-  <a href="#videoteca" onclick="closeMobile()">Videos</a>
-  <a href="#biblioteca" onclick="closeMobile()">Libros</a>
-  <a href="#herramientas-calc" onclick="closeMobile()">Calculadoras</a>
-  <a href="#calculadoras" onclick="closeMobile()">Calcular</a>
-  <a href="#quiz" onclick="closeMobile()">Quiz</a>
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeMobile()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-section">
+    <div class="drawer-section-label">Contenido</div>
+    <a href="#definicion" onclick="closeMobile()"><span class="drawer-num">01</span>Definición</a>
+    <a href="#areas" onclick="closeMobile()"><span class="drawer-num">02</span>Áreas</a>
+    <a href="#historia" onclick="closeMobile()"><span class="drawer-num">03</span>Historia</a>
+    <a href="#herramientas" onclick="closeMobile()"><span class="drawer-num">04</span>Herramientas</a>
+    <a href="#sectores" onclick="closeMobile()"><span class="drawer-num">05</span>Sectores</a>
+    <a href="#perfil" onclick="closeMobile()"><span class="drawer-num">06</span>Perfil</a>
+    <a href="#salidas" onclick="closeMobile()"><span class="drawer-num">07</span>Salidas Laborales</a>
+    <a href="#faq" onclick="closeMobile()"><span class="drawer-num">08</span>FAQ</a>
+  </div>
+  <div class="drawer-section">
+    <div class="drawer-section-label">Recursos</div>
+    <a href="#glosario" onclick="closeMobile()"><span class="drawer-num">09</span>Glosario</a>
+    <a href="#recursos" onclick="closeMobile()"><span class="drawer-num">10</span>Recursos</a>
+    <a href="#videoteca" onclick="closeMobile()"><span class="drawer-num">11</span>Videoteca</a>
+    <a href="#biblioteca" onclick="closeMobile()"><span class="drawer-num">12</span>Biblioteca UNAL</a>
+  </div>
+  <div class="drawer-section">
+    <div class="drawer-section-label">Herramientas</div>
+    <a href="#calculadoras" onclick="closeMobile()"><span class="drawer-num">13</span>Calculadoras</a>
+    <a href="#timeline" onclick="closeMobile()"><span class="drawer-num">14</span>Timeline IE</a>
+    <a href="#casos" onclick="closeMobile()"><span class="drawer-num">15</span>Casos Reales</a>
+  </div>
 </div>
 
 <!-- HERO -->
@@ -984,48 +997,34 @@
   </div>
 </section>
 
+
 <div class="divider"></div>
 
-<!-- VIDEOTECA ESPECIALIZADA -->
+<!-- VIDEOTECA -->
 <section id="videoteca">
   <div class="section-label">12 — Recursos Multimedia</div>
   <h2 class="section-title">VIDEOTECA<br>INDUSTRIAL</h2>
   <div class="recursos-grid">
-    <!-- Video 1 -->
     <div class="recurso-card">
       <div class="yt-thumb" data-id="P6xCELe16xo" onclick="playVideo(this)" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:1rem;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;">
-        <img src="https://img.youtube.com/vi/P6xCELe16xo/hqdefault.jpg" alt="Sistemas de Producción" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-          <div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
-            <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div>
-          </div>
-        </div>
+        <img src="https://img.youtube.com/vi/P6xCELe16xo/hqdefault.jpg" alt="Sistemas de Producción" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div></div></div>
       </div>
       <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--accent);margin-bottom:0.5rem;">Sistemas de Producción</h3>
       <p>Análisis de flujos y procesos en la ingeniería moderna.</p>
     </div>
-    <!-- Video 2 -->
     <div class="recurso-card">
       <div class="yt-thumb" data-id="k_lfzn7YSfI" onclick="playVideo(this)" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:1rem;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;">
-        <img src="https://img.youtube.com/vi/k_lfzn7YSfI/hqdefault.jpg" alt="Optimización de Procesos" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-          <div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
-            <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div>
-          </div>
-        </div>
+        <img src="https://img.youtube.com/vi/k_lfzn7YSfI/hqdefault.jpg" alt="Optimización de Procesos" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div></div></div>
       </div>
       <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--accent);margin-bottom:0.5rem;">Optimización de Procesos</h3>
       <p>Metodologías aplicadas para la mejora de la eficiencia operativa.</p>
     </div>
-    <!-- Video 3 -->
     <div class="recurso-card">
       <div class="yt-thumb" data-id="ahnt8hxTf-M" onclick="playVideo(this)" style="position:relative;padding-bottom:56.25%;height:0;margin-bottom:1rem;cursor:pointer;border-radius:8px;overflow:hidden;background:#000;">
-        <img src="https://img.youtube.com/vi/ahnt8hxTf-M/hqdefault.jpg" alt="Logística y Supply Chain" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:8px;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-          <div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;">
-            <div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div>
-          </div>
-        </div>
+        <img src="https://img.youtube.com/vi/ahnt8hxTf-M/hqdefault.jpg" alt="Logística y Supply Chain" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:56px;height:56px;background:rgba(255,0,0,0.9);border-radius:50%;display:flex;align-items:center;justify-content:center;"><div style="width:0;height:0;border-top:11px solid transparent;border-bottom:11px solid transparent;border-left:20px solid #fff;margin-left:4px;"></div></div></div>
       </div>
       <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px;color:var(--accent);margin-bottom:0.5rem;">Logística y Supply Chain</h3>
       <p>Gestión integral del flujo de materiales e información.</p>
@@ -1035,33 +1034,29 @@
 
 <div class="divider"></div>
 
-<!-- BIBLIOTECA ACADÉMICA UNAL -->
+<!-- BIBLIOTECA ACADÉMICA -->
 <section id="biblioteca">
   <div class="section-label">13 — Biblioteca Digital</div>
   <h2 class="section-title">REPOSITORIO<br>ACADÉMICO</h2>
   <div class="recursos-grid">
-    <!-- Recurso 1 -->
     <div class="recurso-card">
       <div class="recurso-type">Infraestructura</div>
       <h4>Puentes en los caminos de Caldas</h4>
       <p>Galindo, J., et al. (2023). Evolución de armazones de madera a estructuras metálicas.</p>
       <a href="https://repositorio.unal.edu.co/handle/unal/84711" target="_blank" class="recurso-link">Ver en Repositorio UNAL →</a>
     </div>
-    <!-- Recurso 2 -->
     <div class="recurso-card">
       <div class="recurso-type">Fundamentos</div>
       <h4>Fundamentos de Ingeniería Industrial</h4>
       <p>Montoya, C. (2023). Bases teóricas y prácticas de la profesión.</p>
       <a href="https://repositorio.unal.edu.co/handle/unal/84710" target="_blank" class="recurso-link">Ver en Repositorio UNAL →</a>
     </div>
-    <!-- Recurso 3 -->
     <div class="recurso-card">
       <div class="recurso-type">Control / Software</div>
       <h4>Matlab/Simulink: From Zero to Hero</h4>
       <p>Prado-Rubio, Ó. A. (2023). Funcionalidades para control automático de procesos.</p>
       <a href="https://repositorio.unal.edu.co/handle/unal/84709" target="_blank" class="recurso-link">Ver en Repositorio UNAL →</a>
     </div>
-    <!-- Recurso 4 -->
     <div class="recurso-card">
       <div class="recurso-type">Investigación</div>
       <h4>Investigación de Operaciones</h4>
@@ -1071,99 +1066,20 @@
   </div>
 </section>
 
-
 <div class="divider"></div>
 
-<!-- CALCULADORAS -->
+<!-- CALCULADORAS INDUSTRIALES -->
 <section id="calculadoras">
   <div class="section-label">14 — Herramientas Interactivas</div>
   <h2 class="section-title">CALCULADORAS<br>INDUSTRIALES</h2>
-  <div class="calc-grid">
-
-    <!-- OEE -->
-    <div class="calc-card">
-      <h3>Calculadora OEE</h3>
-      <p>Overall Equipment Effectiveness — el indicador gold standard de eficiencia productiva. Multiplica Disponibilidad × Rendimiento × Calidad.</p>
-      <div class="calc-field">
-        <label>Disponibilidad (%)</label>
-        <input type="number" id="oee-disp" placeholder="Ej: 90" min="0" max="100">
-      </div>
-      <div class="calc-field">
-        <label>Rendimiento (%)</label>
-        <input type="number" id="oee-rend" placeholder="Ej: 85" min="0" max="100">
-      </div>
-      <div class="calc-field">
-        <label>Calidad (%)</label>
-        <input type="number" id="oee-cal" placeholder="Ej: 95" min="0" max="100">
-      </div>
-      <button class="calc-btn" onclick="calcOEE()">Calcular OEE</button>
-      <div class="calc-result" id="oee-result">
-        <div class="result-num" id="oee-valor">—</div>
-        <div class="result-label">OEE TOTAL</div>
-        <div class="oee-bars">
-          <div class="oee-bar-row"><span style="min-width:110px">Disponibilidad</span><div class="oee-bar-track"><div class="oee-bar-fill" id="bar-disp"></div></div><span id="lbl-disp">0%</span></div>
-          <div class="oee-bar-row"><span style="min-width:110px">Rendimiento</span><div class="oee-bar-track"><div class="oee-bar-fill" id="bar-rend"></div></div><span id="lbl-rend">0%</span></div>
-          <div class="oee-bar-row"><span style="min-width:110px">Calidad</span><div class="oee-bar-track"><div class="oee-bar-fill" id="bar-cal"></div></div><span id="lbl-cal">0%</span></div>
-        </div>
-        <div class="result-tip" id="oee-tip"></div>
-      </div>
-    </div>
-
-    <!-- TAKT TIME -->
-    <div class="calc-card">
-      <h3>Takt Time & Tiempo de Ciclo</h3>
-      <p>El Takt Time es el ritmo al que debes producir para satisfacer la demanda. Si tu Tiempo de Ciclo es mayor al Takt, hay un cuello de botella.</p>
-      <div class="calc-field">
-        <label>Tiempo disponible de producción (min/día)</label>
-        <input type="number" id="tt-tiempo" placeholder="Ej: 480" min="1">
-      </div>
-      <div class="calc-field">
-        <label>Demanda del cliente (unidades/día)</label>
-        <input type="number" id="tt-demanda" placeholder="Ej: 240" min="1">
-      </div>
-      <div class="calc-field">
-        <label>Tu tiempo de ciclo actual (min/unidad)</label>
-        <input type="number" id="tt-ciclo" placeholder="Ej: 2.5" step="0.1" min="0">
-      </div>
-      <button class="calc-btn" onclick="calcTakt()">Calcular</button>
-      <div class="calc-result" id="tt-result">
-        <div class="result-num" id="tt-valor">—</div>
-        <div class="result-label">TAKT TIME (min/unidad)</div>
-        <div class="result-tip" id="tt-tip"></div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- QUIZ -->
-<section id="quiz">
-  <div class="section-label">15 — Pon a prueba tu conocimiento</div>
-  <h2 class="section-title">QUIZ<br>INDUSTRIAL</h2>
-  <div class="quiz-wrap">
-    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-progress"></div></div>
-    <div id="quiz-body"></div>
-  </div>
-</section>
-
-
-<div class="divider"></div>
-
-<!-- HERRAMIENTAS INTERACTIVAS -->
-<section id="herramientas-calc">
-  <div class="section-label">14 — Herramientas Interactivas</div>
-  <h2 class="section-title">CALCULADORAS<br>INDUSTRIALES</h2>
   <p style="color:var(--muted);margin-bottom:2rem;max-width:600px;">Herramientas de cálculo y visualización para aplicar los conceptos de la guía en problemas reales.</p>
-
   <div class="herr-tabs">
     <button class="herr-tab active" onclick="showHerr('oee',this)">📊 OEE</button>
     <button class="herr-tab" onclick="showHerr('takt',this)">⏱ Takt Time</button>
     <button class="herr-tab" onclick="showHerr('ishi',this)">🐟 Ishikawa</button>
   </div>
 
-  <!-- PANEL OEE -->
+  <!-- OEE -->
   <div class="herr-panel active" id="herr-oee">
     <div class="oee-grid">
       <div class="oee-block">
@@ -1188,9 +1104,7 @@
           <div style="font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:2px;color:var(--muted);margin-bottom:0.3rem;">OEE TOTAL</div>
           <div class="oee-big" id="oee-val">--</div>
         </div>
-        <div>
-          <span class="oee-badge" id="oee-badge">--</span>
-        </div>
+        <span class="oee-badge" id="oee-badge"></span>
       </div>
       <div class="oee-bars">
         <div class="oee-bar-item">
@@ -1210,18 +1124,17 @@
     </div>
   </div>
 
-  <!-- PANEL TAKT TIME -->
+  <!-- TAKT TIME -->
   <div class="herr-panel" id="herr-takt">
     <div class="tt-grid">
       <div class="tt-block">
-        <label>TIEMPO DISPONIBLE</label>
+        <label>TIEMPO DISPONIBLE (min/turno)</label>
         <input type="number" id="tt-tiempo" placeholder="Ej: 480" min="1" oninput="calcTakt()">
-        <small>Minutos por turno (ej: 480 = 8 horas)</small>
+        <small>480 min = 8 horas</small>
       </div>
       <div class="tt-block">
-        <label>DEMANDA DEL CLIENTE</label>
+        <label>DEMANDA DEL CLIENTE (unidades/turno)</label>
         <input type="number" id="tt-demanda" placeholder="Ej: 120" min="1" oninput="calcTakt()">
-        <small>Unidades requeridas por turno</small>
       </div>
       <div class="tt-block">
         <label>TURNOS POR DÍA</label>
@@ -1230,34 +1143,24 @@
           <option value="2">2 turnos</option>
           <option value="3">3 turnos</option>
         </select>
-        <small>Número de turnos de producción</small>
       </div>
       <div class="tt-block">
-        <label>TIEMPO DE CICLO ACTUAL (opcional)</label>
+        <label>TIEMPO DE CICLO ACTUAL (min, opcional)</label>
         <input type="number" id="tt-ciclo" placeholder="Ej: 3.5" min="0" step="0.1" oninput="calcTakt()">
-        <small>Minutos por unidad de tu proceso actual</small>
+        <small>Para comparar con el Takt</small>
       </div>
     </div>
     <div class="tt-result-box" id="tt-result">
       <div class="tt-results-row">
-        <div class="tt-result-card">
-          <div class="tt-result-num" id="tt-takt-val">--</div>
-          <div class="tt-result-lbl">TAKT TIME (min)</div>
-        </div>
-        <div class="tt-result-card">
-          <div class="tt-result-num" id="tt-prod-val">--</div>
-          <div class="tt-result-lbl">CAPACIDAD / TURNO</div>
-        </div>
-        <div class="tt-result-card">
-          <div class="tt-result-num" id="tt-dia-val">--</div>
-          <div class="tt-result-lbl">CAPACIDAD / DÍA</div>
-        </div>
+        <div class="tt-result-card"><div class="tt-result-num" id="tt-takt-val">--</div><div class="tt-result-lbl">TAKT TIME (min)</div></div>
+        <div class="tt-result-card"><div class="tt-result-num" id="tt-prod-val">--</div><div class="tt-result-lbl">CAPACIDAD / TURNO</div></div>
+        <div class="tt-result-card"><div class="tt-result-num" id="tt-dia-val">--</div><div class="tt-result-lbl">CAPACIDAD / DÍA</div></div>
       </div>
       <div class="tt-tip" id="tt-tip"></div>
     </div>
   </div>
 
-  <!-- PANEL ISHIKAWA -->
+  <!-- ISHIKAWA -->
   <div class="herr-panel" id="herr-ishi">
     <div class="ishi-setup">
       <div class="ishi-setup-block">
@@ -1269,45 +1172,117 @@
       </div>
     </div>
     <div class="ishi-causas-grid">
-      <div class="ishi-causa-block">
-        <h5>👤 Mano de Obra</h5>
-        <input type="text" id="c1-1" placeholder="Causa 1" oninput="renderIshi()">
-        <input type="text" id="c1-2" placeholder="Causa 2" oninput="renderIshi()">
-        <input type="text" id="c1-3" placeholder="Causa 3" oninput="renderIshi()">
-      </div>
-      <div class="ishi-causa-block">
-        <h5>⚙️ Máquinas</h5>
-        <input type="text" id="c2-1" placeholder="Causa 1" oninput="renderIshi()">
-        <input type="text" id="c2-2" placeholder="Causa 2" oninput="renderIshi()">
-        <input type="text" id="c2-3" placeholder="Causa 3" oninput="renderIshi()">
-      </div>
-      <div class="ishi-causa-block">
-        <h5>🧪 Materiales</h5>
-        <input type="text" id="c3-1" placeholder="Causa 1" oninput="renderIshi()">
-        <input type="text" id="c3-2" placeholder="Causa 2" oninput="renderIshi()">
-        <input type="text" id="c3-3" placeholder="Causa 3" oninput="renderIshi()">
-      </div>
-      <div class="ishi-causa-block">
-        <h5>📋 Métodos</h5>
-        <input type="text" id="c4-1" placeholder="Causa 1" oninput="renderIshi()">
-        <input type="text" id="c4-2" placeholder="Causa 2" oninput="renderIshi()">
-        <input type="text" id="c4-3" placeholder="Causa 3" oninput="renderIshi()">
-      </div>
-      <div class="ishi-causa-block">
-        <h5>🌡 Medio Ambiente</h5>
-        <input type="text" id="c5-1" placeholder="Causa 1" oninput="renderIshi()">
-        <input type="text" id="c5-2" placeholder="Causa 2" oninput="renderIshi()">
-        <input type="text" id="c5-3" placeholder="Causa 3" oninput="renderIshi()">
-      </div>
-      <div class="ishi-causa-block">
-        <h5>📏 Medición</h5>
-        <input type="text" id="c6-1" placeholder="Causa 1" oninput="renderIshi()">
-        <input type="text" id="c6-2" placeholder="Causa 2" oninput="renderIshi()">
-        <input type="text" id="c6-3" placeholder="Causa 3" oninput="renderIshi()">
-      </div>
+      <div class="ishi-causa-block"><h5>👤 Mano de Obra</h5><input type="text" id="c1-1" placeholder="Causa 1" oninput="renderIshi()"><input type="text" id="c1-2" placeholder="Causa 2" oninput="renderIshi()"><input type="text" id="c1-3" placeholder="Causa 3" oninput="renderIshi()"></div>
+      <div class="ishi-causa-block"><h5>⚙️ Máquinas</h5><input type="text" id="c2-1" placeholder="Causa 1" oninput="renderIshi()"><input type="text" id="c2-2" placeholder="Causa 2" oninput="renderIshi()"><input type="text" id="c2-3" placeholder="Causa 3" oninput="renderIshi()"></div>
+      <div class="ishi-causa-block"><h5>🧪 Materiales</h5><input type="text" id="c3-1" placeholder="Causa 1" oninput="renderIshi()"><input type="text" id="c3-2" placeholder="Causa 2" oninput="renderIshi()"><input type="text" id="c3-3" placeholder="Causa 3" oninput="renderIshi()"></div>
+      <div class="ishi-causa-block"><h5>📋 Métodos</h5><input type="text" id="c4-1" placeholder="Causa 1" oninput="renderIshi()"><input type="text" id="c4-2" placeholder="Causa 2" oninput="renderIshi()"><input type="text" id="c4-3" placeholder="Causa 3" oninput="renderIshi()"></div>
+      <div class="ishi-causa-block"><h5>🌡 Medio Ambiente</h5><input type="text" id="c5-1" placeholder="Causa 1" oninput="renderIshi()"><input type="text" id="c5-2" placeholder="Causa 2" oninput="renderIshi()"><input type="text" id="c5-3" placeholder="Causa 3" oninput="renderIshi()"></div>
+      <div class="ishi-causa-block"><h5>📏 Medición</h5><input type="text" id="c6-1" placeholder="Causa 1" oninput="renderIshi()"><input type="text" id="c6-2" placeholder="Causa 2" oninput="renderIshi()"><input type="text" id="c6-3" placeholder="Causa 3" oninput="renderIshi()"></div>
     </div>
     <div class="ishi-svg-wrap" id="ishi-svg-wrap">
       <svg id="ishi-svg" width="100%" viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="section-label">15 — Historia Interactiva</div>
+  <h2 class="section-title">EVOLUCIÓN DE<br>LA INGENIERÍA INDUSTRIAL</h2>
+  <p style="color:var(--muted);margin-bottom:2.5rem;max-width:600px;">Haz clic en cada hito para explorar cómo evolucionó la disciplina desde 1776 hasta hoy.</p>
+  <div class="timeline-wrap">
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">1776</div><div class="tl-title">La Riqueza de las Naciones — Adam Smith</div><span class="tl-tag">ECONOMÍA</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Adam Smith introduce el concepto de <strong>división del trabajo</strong>. Su ejemplo de la fábrica de alfileres muestra cómo especializar operaciones multiplica la productividad — semilla directa de la IE moderna.</div></div>
+    </div>
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">1832</div><div class="tl-title">Economía de Maquinaria — Charles Babbage</div><span class="tl-tag">MANUFACTURA</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Babbage analiza <strong>procesos fabriles con criterios matemáticos</strong> y propone asignar tareas según habilidad y costo — anticipando el estudio de tiempos por casi 70 años.</div></div>
+    </div>
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">1911</div><div class="tl-title">Administración Científica — Frederick Taylor</div><span class="tl-tag">TAYLOR</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Taylor formaliza el <strong>estudio de tiempos y movimientos</strong> e introduce la estandarización de cada operación. Es considerado el padre de la Ingeniería Industrial moderna.</div></div>
+    </div>
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">1913</div><div class="tl-title">Línea de ensamble móvil — Henry Ford</div><span class="tl-tag">PRODUCCIÓN</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Ford implementa la <strong>primera línea de ensamble móvil</strong> para el Model T. El tiempo de ensamble cae de 12.5 horas a 93 minutos. Nace la producción en masa.</div></div>
+    </div>
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">1947</div><div class="tl-title">Método Símplex — George Dantzig</div><span class="tl-tag">IO</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Dantzig desarrolla el <strong>método símplex</strong> para programación lineal. La Investigación de Operaciones nace como disciplina, transformando la toma de decisiones en sistemas complejos.</div></div>
+    </div>
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">1950</div><div class="tl-title">Sistema Toyota de Producción — Ohno & Shingo</div><span class="tl-tag">LEAN</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Taiichi Ohno y Shigeo Shingo desarrollan el <strong>TPS</strong>. Kanban, Jidoka y Just-In-Time revolucionan la manufactura mundial y son la base del Lean moderno.</div></div>
+    </div>
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">1986</div><div class="tl-title">Six Sigma nace en Motorola</div><span class="tl-tag">CALIDAD</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Bill Smith desarrolla <strong>Six Sigma</strong>: reducir defectos a 3.4 por millón de oportunidades. GE la populariza en los 90s. DMAIC se convierte en el estándar global.</div></div>
+    </div>
+    <div class="tl-card" onclick="toggleTL(this)">
+      <div class="tl-card-head"><div class="tl-year">2011</div><div class="tl-title">Industria 4.0 — Hannover</div><span class="tl-tag">DIGITAL</span><span class="tl-arrow">▼</span></div>
+      <div class="tl-body"><div class="tl-body-inner">Alemania acuña <strong>Industria 4.0</strong>: IoT, Big Data, IA y manufactura aditiva integradas al piso de producción. El IE del siglo XXI domina tanto los fundamentos clásicos como las tecnologías digitales.</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CASOS REALES -->
+<section id="casos">
+  <div class="section-label">16 — Casos Reales</div>
+  <h2 class="section-title">INGENIERÍA INDUSTRIAL<br>EN ACCIÓN</h2>
+  <p style="color:var(--muted);margin-bottom:2.5rem;max-width:600px;">Cómo las empresas más exitosas del mundo aplican los principios de la IE para transformar sus operaciones.</p>
+  <div class="casos-grid">
+    <div class="caso-card">
+      <div class="caso-header"><div class="caso-logo">🚗</div><div><div class="caso-company">TOYOTA</div><div class="caso-sector">MANUFACTURA AUTOMOTRIZ</div></div></div>
+      <div class="caso-body">
+        <div class="caso-problema">"¿Cómo producir variedad con cero desperdicio?"</div>
+        <div class="caso-tools"><span class="caso-tool-tag">TPS</span><span class="caso-tool-tag">KANBAN</span><span class="caso-tool-tag">JIDOKA</span><span class="caso-tool-tag">JUST-IN-TIME</span></div>
+        <div class="caso-resultado">Taiichi Ohno diseñó el <strong>Toyota Production System</strong> eliminando los 7 Mudas. Kanban sincroniza producción con demanda real. Resultado: <span class="caso-metric">↓90%</span> inventario en proceso, <span class="caso-metric">↑40%</span> productividad.</div>
+      </div>
+    </div>
+    <div class="caso-card">
+      <div class="caso-header"><div class="caso-logo">📦</div><div><div class="caso-company">AMAZON</div><div class="caso-sector">LOGÍSTICA & E-COMMERCE</div></div></div>
+      <div class="caso-body">
+        <div class="caso-problema">"¿Cómo entregar millones de pedidos en 24 horas?"</div>
+        <div class="caso-tools"><span class="caso-tool-tag">DIST. DE PLANTA</span><span class="caso-tool-tag">ROBÓTICA</span><span class="caso-tool-tag">IO</span></div>
+        <div class="caso-resultado">Fulfillment centers diseñados con <strong>IO y robótica Kiva</strong>. Algoritmos optimizan rutas de picking en tiempo real. Resultado: <span class="caso-metric">↓50%</span> tiempo de picking, <span class="caso-metric">+750k</span> robots en 2024.</div>
+      </div>
+    </div>
+    <div class="caso-card">
+      <div class="caso-header"><div class="caso-logo">🍔</div><div><div class="caso-company">McDONALD'S</div><div class="caso-sector">SERVICIOS & ALIMENTOS</div></div></div>
+      <div class="caso-body">
+        <div class="caso-problema">"¿Cómo estandarizar calidad en 40,000 restaurantes?"</div>
+        <div class="caso-tools"><span class="caso-tool-tag">ESTUDIO DE TIEMPOS</span><span class="caso-tool-tag">POKA-YOKE</span><span class="caso-tool-tag">ESTANDARIZACIÓN</span></div>
+        <div class="caso-resultado"><strong>Estudio de tiempos y movimientos</strong> aplicado al diseño de cocinas. Equipos a prueba de errores y procedimientos estandarizados. Resultado: <span class="caso-metric">170s</span> tiempo de servicio, consistencia en 100+ países.</div>
+      </div>
+    </div>
+    <div class="caso-card">
+      <div class="caso-header"><div class="caso-logo">✈️</div><div><div class="caso-company">SOUTHWEST AIRLINES</div><div class="caso-sector">AVIACIÓN & SERVICIOS</div></div></div>
+      <div class="caso-body">
+        <div class="caso-problema">"¿Cómo reducir el tiempo en tierra de los aviones?"</div>
+        <div class="caso-tools"><span class="caso-tool-tag">SMED</span><span class="caso-tool-tag">LEAN SERVICES</span><span class="caso-tool-tag">TRABAJO ESTÁNDAR</span></div>
+        <div class="caso-resultado"><strong>SMED</strong> aplicado al turnaround de aeronaves. Cada tarea estandarizada con tiempos y responsables. Resultado: <span class="caso-metric">25min</span> turnaround vs 45+ del sector.</div>
+      </div>
+    </div>
+    <div class="caso-card">
+      <div class="caso-header"><div class="caso-logo">🏥</div><div><div class="caso-company">VIRGINIA MASON</div><div class="caso-sector">SALUD & HOSPITALES</div></div></div>
+      <div class="caso-body">
+        <div class="caso-problema">"¿Lean en un hospital? ¿Es posible?"</div>
+        <div class="caso-tools"><span class="caso-tool-tag">LEAN HEALTHCARE</span><span class="caso-tool-tag">VSM</span><span class="caso-tool-tag">KAIZEN</span></div>
+        <div class="caso-resultado">VSM reveló que los pacientes caminaban 3 km innecesariamente. Resultado: <span class="caso-metric">↓53%</span> tiempos de espera, <span class="caso-metric">↓85%</span> inventario — modelo referente mundial en Lean Healthcare.</div>
+      </div>
+    </div>
+    <div class="caso-card">
+      <div class="caso-header"><div class="caso-logo">🖥️</div><div><div class="caso-company">INTEL</div><div class="caso-sector">SEMICONDUCTORES & TECH</div></div></div>
+      <div class="caso-body">
+        <div class="caso-problema">"¿Cómo fabricar chips con defectos cercanos a cero?"</div>
+        <div class="caso-tools"><span class="caso-tool-tag">SIX SIGMA</span><span class="caso-tool-tag">SPC</span><span class="caso-tool-tag">COPY EXACTLY!</span></div>
+        <div class="caso-resultado">Metodología <strong>Copy Exactly!</strong> replica procesos entre fábricas con variabilidad mínima. Six Sigma + SPC en cada etapa litográfica. Resultado: OEE superior al 85% en 3 continentes.</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1330,98 +1305,11 @@
     <a href="#herramientas">Herramientas</a>
     <a href="#faq">FAQ</a>
     <a href="#glosario">Glosario</a>
-    <a href="#videoteca">Videos</a>
-    <a href="#biblioteca">Libros</a>
-    <a href="#calculadoras">Calcular</a>
-    <a href="#quiz">Quiz</a>
   </div>
   <p>Guía educativa completa · 2024</p>
 </footer>
 
 <script>
-  // ── YouTube thumbnail → player
-  function playVideo(el) {
-    const id = el.dataset.id;
-    el.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;border:0;" allowfullscreen allow="autoplay"></iframe>`;
-  }
-
-
-  // ── Buscador global
-  const SEARCH_INDEX = [
-    { section: '#definicion', tag: 'Fundamentos', title: '¿Qué es la Ingeniería Industrial?', desc: 'Definición, objetivos y enfoque sistémico' },
-    { section: '#areas', tag: 'Especialidades', title: 'Áreas de conocimiento', desc: 'Las 9 especialidades principales de la IE' },
-    { section: '#historia', tag: 'Historia', title: 'Historia y origen', desc: 'Evolución desde la Revolución Industrial' },
-    { section: '#herramientas', tag: 'Métodos', title: 'Herramientas y métodos', desc: 'Lean, Six Sigma, Kaizen, VSM, SMED, DMAIC' },
-    { section: '#sectores', tag: 'Aplicaciones', title: 'Sectores de aplicación', desc: 'Manufactura, salud, logística, tecnología' },
-    { section: '#comparativa', tag: 'Comparativa', title: 'IE vs otras ingenierías', desc: 'Tabla comparativa con otras ramas' },
-    { section: '#perfil', tag: 'Competencias', title: 'Perfil del ingeniero industrial', desc: 'Habilidades y competencias clave' },
-    { section: '#salidas', tag: 'Empleabilidad', title: 'Salidas laborales', desc: 'Roles y oportunidades profesionales' },
-    { section: '#faq', tag: 'FAQ', title: 'Preguntas frecuentes', desc: 'Dudas comunes sobre la carrera' },
-    { section: '#glosario', tag: 'Glosario', title: 'Glosario industrial', desc: 'Muda, Kanban, DMAIC, VSM, Poka-Yoke...' },
-    { section: '#recursos', tag: 'Recursos', title: 'Recursos recomendados', desc: 'Libros, cursos y organizaciones de referencia' },
-    { section: '#videoteca', tag: 'Videos', title: 'Videoteca industrial', desc: 'Producción, optimización y logística' },
-    { section: '#biblioteca', tag: 'Libros UNAL', title: 'Repositorio académico UNAL', desc: 'Publicaciones académicas disponibles online' },
-    { section: '#herramientas', tag: 'Método', title: 'Lean Manufacturing', desc: 'Eliminación de desperdicios y flujo continuo' },
-    { section: '#herramientas', tag: 'Método', title: 'Six Sigma', desc: 'Reducción de variabilidad y defectos DMAIC' },
-    { section: '#herramientas', tag: 'Método', title: 'Kaizen', desc: 'Mejora continua en pequeños pasos' },
-    { section: '#herramientas', tag: 'Método', title: 'Value Stream Mapping', desc: 'Mapa del flujo de valor VSM' },
-    { section: '#glosario', tag: 'Término', title: 'Muda', desc: 'Los 7 tipos de desperdicio en Lean' },
-    { section: '#glosario', tag: 'Término', title: 'Kanban', desc: 'Sistema de gestión visual del trabajo' },
-    { section: '#glosario', tag: 'Término', title: 'Poka-Yoke', desc: 'Dispositivo a prueba de errores' },
-    { section: '#glosario', tag: 'Término', title: 'Takt Time', desc: 'Ritmo de producción según demanda' },
-  ];
-
-  const searchOverlay = document.getElementById('search-overlay');
-  const searchInput = document.getElementById('search-input');
-  const searchResults = document.getElementById('search-results');
-  const searchBtn = document.getElementById('search-btn');
-  const searchClose = document.getElementById('search-close');
-
-  function openSearch() {
-    searchOverlay.classList.add('open');
-    searchInput.value = '';
-    searchResults.innerHTML = '<div class="search-empty">Escribe para buscar en las 13 secciones...</div>';
-    setTimeout(() => searchInput.focus(), 50);
-  }
-  function closeSearch() { searchOverlay.classList.remove('open'); }
-
-  searchBtn.addEventListener('click', openSearch);
-  searchClose.addEventListener('click', closeSearch);
-  searchOverlay.addEventListener('click', e => { if (e.target === searchOverlay) closeSearch(); });
-
-  document.addEventListener('keydown', e => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
-    if (e.key === 'Escape') closeSearch();
-  });
-
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.toLowerCase().trim();
-    if (!q) { searchResults.innerHTML = '<div class="search-empty">Escribe para buscar en las 13 secciones...</div>'; return; }
-    const hits = SEARCH_INDEX.filter(item =>
-      item.title.toLowerCase().includes(q) ||
-      item.desc.toLowerCase().includes(q) ||
-      item.tag.toLowerCase().includes(q)
-    );
-    if (!hits.length) { searchResults.innerHTML = '<div class="search-empty">Sin resultados para "' + searchInput.value + '"</div>'; return; }
-    searchResults.innerHTML = hits.map(h => `
-      <a class="search-result-item" href="${h.section}" onclick="closeSearch()">
-        <div class="search-result-tag">${h.tag}</div>
-        <div><div class="search-result-title">${h.title}</div><div class="search-result-desc">${h.desc}</div></div>
-      </a>`).join('');
-  });
-
-  // ── Theme toggle
-  const themeBtn = document.getElementById('theme-toggle');
-  const themeLabel = themeBtn.querySelector('.toggle-label');
-  const themeIcon = themeBtn.querySelector('.toggle-icon');
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'light') { document.body.classList.add('light-mode'); themeIcon.textContent = '🌙'; themeLabel.textContent = 'MODO'; }
-  themeBtn.addEventListener('click', () => {
-    const isLight = document.body.classList.toggle('light-mode');
-    themeIcon.textContent = isLight ? '🌙' : '☀️';
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  });
-
   // ── Progress bar
   window.addEventListener('scroll', () => {
     const doc = document.documentElement;
@@ -1446,14 +1334,22 @@
     navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
   });
 
-  // ── Hamburger
+  // ── Drawer / Hamburger
   const ham = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
+  const drawer = document.getElementById('drawer');
+  const drawerOverlay = document.getElementById('drawer-overlay');
+  function closeMobile() {
+    ham.classList.remove('open');
+    drawer.classList.remove('open');
+    drawerOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
   ham.addEventListener('click', () => {
+    const isOpen = drawer.classList.toggle('open');
     ham.classList.toggle('open');
-    mobileMenu.classList.toggle('open');
+    drawerOverlay.classList.toggle('open');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   });
-  function closeMobile() { ham.classList.remove('open'); mobileMenu.classList.remove('open'); }
 
   // ── FAQ accordion
   function toggleFaq(btn) {
@@ -1473,99 +1369,116 @@
     });
   }
 
-  // ── Fade-in on scroll (generic)
-  const fadeEls = document.querySelectorAll('.area-card, .tool-card, .sector-card, .salida-card, .recurso-card');
+  // ── Fade-in on scroll (generic) with stagger
+  const fadeEls = document.querySelectorAll('.area-card, .tool-card, .sector-card, .salida-card, .recurso-card, .caso-card, .perfil-item, .tl-card');
   const fadeObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; fadeObs.unobserve(e.target); } });
-  }, { threshold: 0.08 });
-  fadeEls.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.style.transition = 'opacity 0.5s ease, transform 0.5s ease'; fadeObs.observe(el); });
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        // Stagger delay based on position within parent
+        const siblings = Array.from(e.target.parentElement.children);
+        const idx = siblings.indexOf(e.target);
+        setTimeout(() => {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0) scale(1)';
+        }, idx * 60);
+        fadeObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+  fadeEls.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px) scale(0.98)';
+    el.style.transition = 'opacity 0.55s cubic-bezier(0.22,1,0.36,1), transform 0.55s cubic-bezier(0.22,1,0.36,1)';
+    fadeObs.observe(el);
+  });
 
-  // ── Calculadora OEE
-  function calcOEE() {
-    const d = parseFloat(document.getElementById('oee-disp').value);
-    const r = parseFloat(document.getElementById('oee-rend').value);
-    const c = parseFloat(document.getElementById('oee-cal').value);
-    if (isNaN(d)||isNaN(r)||isNaN(c)||d<0||r<0||c<0||d>100||r>100||c>100) { alert('Ingresa valores entre 0 y 100 en los tres campos.'); return; }
-    const oee = (d/100)*(r/100)*(c/100)*100;
-    document.getElementById('oee-valor').textContent = oee.toFixed(1) + '%';
-    document.getElementById('bar-disp').style.width = d + '%';
-    document.getElementById('bar-rend').style.width = r + '%';
-    document.getElementById('bar-cal').style.width = c + '%';
-    document.getElementById('lbl-disp').textContent = d + '%';
-    document.getElementById('lbl-rend').textContent = r + '%';
-    document.getElementById('lbl-cal').textContent = c + '%';
-    let tip = '';
-    if (oee >= 85) tip = '✅ Clase mundial. OEE ≥ 85% es el estándar de excelencia en manufactura.';
-    else if (oee >= 65) tip = '⚠️ Aceptable. Hay margen de mejora — analiza cuál de los tres factores es el cuello de botella.';
-    else tip = '🔴 Por debajo del estándar. Prioriza acciones de mejora inmediata con Lean o Six Sigma.';
-    document.getElementById('oee-tip').textContent = tip;
-    document.getElementById('oee-result').classList.add('show');
+  // ── Section titles fade-in
+  const titleEls = document.querySelectorAll('.section-title, .section-label');
+  const titleObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+        titleObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  titleEls.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    titleObs.observe(el);
+  });
+
+  // ── YouTube thumbnail player
+  function playVideo(el) {
+    const id = el.dataset.id;
+    el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id + '?autoplay=1" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;border:0;" allowfullscreen allow="autoplay"></iframe>';
   }
 
-  // ── Calculadora Takt Time
-  function calcTakt() {
-    const t = parseFloat(document.getElementById('tt-tiempo').value);
-    const d = parseFloat(document.getElementById('tt-demanda').value);
-    const c = parseFloat(document.getElementById('tt-ciclo').value);
-    if (isNaN(t)||isNaN(d)||t<=0||d<=0) { alert('Ingresa tiempo disponible y demanda válidos.'); return; }
-    const takt = t / d;
-    document.getElementById('tt-valor').textContent = takt.toFixed(2);
-    let tip = '';
-    if (!isNaN(c) && c > 0) {
-      if (c > takt) tip = '🔴 Cuello de botella: tu ciclo (' + c.toFixed(2) + ' min) supera el Takt (' + takt.toFixed(2) + ' min). No podrás cumplir la demanda — reduce el tiempo de ciclo.';
-      else if (c < takt * 0.8) tip = '⚠️ Tu ciclo (' + c.toFixed(2) + ' min) es mucho menor al Takt — posible sobreproducción. Considera balancear la línea.';
-      else tip = '✅ Tu tiempo de ciclo (' + c.toFixed(2) + ' min) está alineado con el Takt. La línea está bien balanceada.';
-    } else { tip = 'Ingresa tu tiempo de ciclo actual para ver si hay cuello de botella.'; }
-    document.getElementById('tt-tip').textContent = tip;
-    document.getElementById('tt-result').classList.add('show');
-  }
+  // ── Theme toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = themeBtn.querySelector('.toggle-icon');
+  if (localStorage.getItem('theme') === 'light') { document.body.classList.add('light-mode'); themeIcon.textContent = '🌙'; }
+  themeBtn.addEventListener('click', () => {
+    const isLight = document.body.classList.toggle('light-mode');
+    themeIcon.textContent = isLight ? '🌙' : '☀️';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  });
 
-  // ── Quiz Industrial
-  const QUIZ_DATA = [
-    { q: '¿Qué significa OEE?', opts: ['Overall Equipment Effectiveness','Operational Efficiency Engine','Output Evaluation Excellence','Overall Engineering Estimate'], ans: 0, exp: 'OEE = Disponibilidad × Rendimiento × Calidad. Es el indicador clave de eficiencia en manufactura.' },
-    { q: '¿Cuál es el objetivo principal del Lean Manufacturing?', opts: ['Aumentar la velocidad de las máquinas','Eliminar desperdicios (Muda) del proceso','Reducir el número de trabajadores','Incrementar el inventario de seguridad'], ans: 1, exp: 'Lean busca eliminar los 7 tipos de desperdicio (Muda) para maximizar el valor al cliente.' },
-    { q: '¿Qué es el Takt Time?', opts: ['El tiempo que tarda en fallar una máquina','El ritmo de producción requerido para satisfacer la demanda','El tiempo de setup entre turnos','La duración de un turno de trabajo'], ans: 1, exp: 'Takt Time = Tiempo disponible / Demanda. Marca el ritmo al que debe producir el proceso.' },
-    { q: 'En Six Sigma, ¿qué significa DMAIC?', opts: ['Define, Measure, Analyze, Improve, Control','Design, Make, Assemble, Inspect, Complete','Direct, Manage, Assign, Implement, Check','Deploy, Monitor, Assess, Improve, Close'], ans: 0, exp: 'DMAIC es la metodología estructurada de Six Sigma para resolver problemas complejos.' },
-    { q: '¿Qué es el Poka-Yoke?', opts: ['Un tipo de inventario japonés','Un mecanismo a prueba de errores','Un indicador de calidad Six Sigma','Un método de distribución de planta'], ans: 1, exp: 'Poka-Yoke son dispositivos que previenen o detectan errores antes de que ocurran o avancen al siguiente proceso.' },
-    { q: '¿Cuántos tipos de desperdicio (Muda) define Lean?', opts: ['5','6','7','8'], ans: 2, exp: 'Los 7 Mudas: sobreproducción, esperas, transporte, sobreprocesamiento, inventario, movimiento y defectos.' },
-    { q: '¿Qué herramienta mapea el flujo de valor de un proceso?', opts: ['Diagrama de Gantt','Value Stream Mapping (VSM)','Diagrama de Ishikawa','Carta de control'], ans: 1, exp: 'El VSM (Mapa del Flujo de Valor) identifica actividades que agregan y no agregan valor en un proceso.' },
-    { q: 'Un OEE del 85% o más se considera:', opts: ['Deficiente','Aceptable','Clase mundial','Imposible de alcanzar'], ans: 2, exp: 'OEE ≥ 85% es el estándar de clase mundial en manufactura según el benchmarking internacional.' },
-    { q: '¿Qué busca el SMED?', opts: ['Reducir defectos a cero','Reducir tiempos de cambio de herramienta a menos de 10 min','Mapear el flujo de valor','Estandarizar los turnos de trabajo'], ans: 1, exp: 'SMED (Single Minute Exchange of Die) reduce los tiempos de cambio/setup para aumentar la flexibilidad.' },
-    { q: '¿En qué se diferencia la Ingeniería Industrial de otras ingenierías?', opts: ['Se enfoca solo en manufactura','Trabaja exclusivamente con software','Tiene un enfoque sistémico y transversal aplicable a cualquier sector','Solo aplica en empresas grandes'], ans: 2, exp: 'La IE tiene un enfoque sistémico — optimiza sistemas de personas, materiales, información y equipos en cualquier tipo de organización.' },
+  // ── Global search
+  const SEARCH_INDEX = [
+    { section:'#definicion', tag:'Fundamentos', title:'¿Qué es la Ingeniería Industrial?', desc:'Definición, objetivos y enfoque sistémico' },
+    { section:'#areas', tag:'Especialidades', title:'Áreas de conocimiento', desc:'Las 9 especialidades principales de la IE' },
+    { section:'#historia', tag:'Historia', title:'Historia y origen', desc:'Evolución desde la Revolución Industrial' },
+    { section:'#herramientas', tag:'Métodos', title:'Herramientas y métodos', desc:'Lean, Six Sigma, Kaizen, VSM, SMED, DMAIC' },
+    { section:'#sectores', tag:'Aplicaciones', title:'Sectores de aplicación', desc:'Manufactura, salud, logística, tecnología' },
+    { section:'#perfil', tag:'Competencias', title:'Perfil del ingeniero industrial', desc:'Habilidades y competencias clave' },
+    { section:'#salidas', tag:'Empleabilidad', title:'Salidas laborales', desc:'Roles y oportunidades profesionales' },
+    { section:'#faq', tag:'FAQ', title:'Preguntas frecuentes', desc:'Dudas comunes sobre la carrera' },
+    { section:'#glosario', tag:'Glosario', title:'Glosario industrial', desc:'Muda, Kanban, DMAIC, VSM, Poka-Yoke...' },
+    { section:'#videoteca', tag:'Videos', title:'Videoteca industrial', desc:'Producción, optimización y logística' },
+    { section:'#biblioteca', tag:'Libros UNAL', title:'Repositorio académico UNAL', desc:'Publicaciones académicas online' },
+    { section:'#calculadoras', tag:'Calculadora', title:'OEE — Eficiencia Global del Equipo', desc:'Disponibilidad × Rendimiento × Calidad' },
+    { section:'#calculadoras', tag:'Calculadora', title:'Takt Time & Tiempo de Ciclo', desc:'Ritmo de producción y detección de cuellos' },
+    { section:'#calculadoras', tag:'Calculadora', title:'Diagrama de Ishikawa', desc:'Generador de espina de pescado por causas' },
+    { section:'#timeline', tag:'Historia IE', title:'Timeline de la IE', desc:'De Adam Smith a la Industria 4.0' },
+    { section:'#casos', tag:'Casos Reales', title:'Toyota — TPS y Lean', desc:'Kanban, Jidoka y eliminación de Muda' },
+    { section:'#casos', tag:'Casos Reales', title:'Amazon — Logística', desc:'IO, robótica y fulfillment centers' },
+    { section:'#casos', tag:'Casos Reales', title:"McDonald's — Estandarización", desc:'Estudio de tiempos y Poka-Yoke' },
+    { section:'#casos', tag:'Casos Reales', title:'Southwest Airlines — SMED', desc:'Turnaround de 25 min con Lean' },
+    { section:'#casos', tag:'Casos Reales', title:'Virginia Mason — Lean Healthcare', desc:'TPS aplicado a hospitales' },
+    { section:'#casos', tag:'Casos Reales', title:'Intel — Six Sigma', desc:'Copy Exactly! y SPC en chips' },
   ];
 
-  let quizIdx = 0, quizScore = 0, quizAnswered = false;
+  const searchOverlay = document.getElementById('search-overlay');
+  const searchInput   = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+  const searchBtn     = document.getElementById('search-btn');
+  const searchClose   = document.getElementById('search-close');
 
-  function renderQuiz() {
-    const body = document.getElementById('quiz-body');
-    if (quizIdx >= QUIZ_DATA.length) {
-      const pct = Math.round((quizScore / QUIZ_DATA.length) * 100);
-      let msg = pct >= 80 ? '🏆 Excelente — tienes un sólido conocimiento de Ingeniería Industrial.' : pct >= 50 ? '📚 Buen intento — repasa las secciones de Herramientas y Glosario para reforzar.' : '🔧 Sigue estudiando — la guía tiene todo lo que necesitas para mejorar.';
-      body.innerHTML = '<div class="quiz-result-box"><div class="quiz-score">' + quizScore + '/' + QUIZ_DATA.length + '</div><div class="quiz-score-label">RESPUESTAS CORRECTAS · ' + pct + '%</div><div class="quiz-score-msg">' + msg + '</div><button class="calc-btn" onclick="quizIdx=0;quizScore=0;quizAnswered=false;renderQuiz()">Intentar de nuevo</button></div>';
-      document.getElementById('quiz-progress').style.width = '100%';
-      return;
-    }
-    const q = QUIZ_DATA[quizIdx];
-    document.getElementById('quiz-progress').style.width = ((quizIdx / QUIZ_DATA.length) * 100) + '%';
-    body.innerHTML = '<div class="quiz-question">' + (quizIdx+1) + '. ' + q.q + '</div><div class="quiz-options">' +
-      q.opts.map((o,i) => '<button class="quiz-option" onclick="answerQuiz(' + i + ')">' + o + '</button>').join('') +
-      '</div><div class="quiz-feedback" id="quiz-fb"></div><div class="quiz-nav"><span class="quiz-counter">' + (quizIdx+1) + ' / ' + QUIZ_DATA.length + '</span><button class="calc-btn" id="quiz-next" onclick="quizIdx++;quizAnswered=false;renderQuiz()" style="display:none">Siguiente →</button></div>';
-    quizAnswered = false;
+  function openSearch() {
+    searchOverlay.classList.add('open');
+    searchInput.value = '';
+    searchResults.innerHTML = '<div class="search-empty">Escribe para buscar en las 16 secciones...</div>';
+    setTimeout(() => searchInput.focus(), 50);
   }
+  function closeSearch() { searchOverlay.classList.remove('open'); }
 
-  function answerQuiz(i) {
-    if (quizAnswered) return;
-    quizAnswered = true;
-    const q = QUIZ_DATA[quizIdx];
-    const btns = document.querySelectorAll('.quiz-option');
-    btns.forEach(b => b.disabled = true);
-    if (i === q.ans) { btns[i].classList.add('correct'); quizScore++; document.getElementById('quiz-fb').textContent = '✅ ' + q.exp; }
-    else { btns[i].classList.add('wrong'); btns[q.ans].classList.add('correct'); document.getElementById('quiz-fb').textContent = '❌ ' + q.exp; }
-    document.getElementById('quiz-next').style.display = 'inline-flex';
-  }
-
-  renderQuiz();
-
+  searchBtn.addEventListener('click', openSearch);
+  searchClose.addEventListener('click', closeSearch);
+  searchOverlay.addEventListener('click', e => { if (e.target === searchOverlay) closeSearch(); });
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape') closeSearch();
+  });
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    if (!q) { searchResults.innerHTML = '<div class="search-empty">Escribe para buscar...</div>'; return; }
+    const hits = SEARCH_INDEX.filter(i => i.title.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q) || i.tag.toLowerCase().includes(q));
+    if (!hits.length) { searchResults.innerHTML = '<div class="search-empty">Sin resultados para "' + searchInput.value + '"</div>'; return; }
+    searchResults.innerHTML = hits.map(h => '<a class="search-result-item" href="' + h.section + '" onclick="closeSearch()"><div class="search-result-tag">' + h.tag + '</div><div><div class="search-result-title">' + h.title + '</div><div class="search-result-desc">' + h.desc + '</div></div></a>').join('');
+  });
 
   // ── Herramientas tabs
   function showHerr(id, btn) {
@@ -1592,39 +1505,38 @@
     const badge = document.getElementById('oee-badge');
     let tip = '';
     if (oee >= 85) {
-      badge.textContent = '🏆 CLASE MUNDIAL'; badge.style.background = 'rgba(76,175,125,0.15)'; badge.style.color = '#4caf7d'; badge.style.border = '1px solid rgba(76,175,125,0.3)';
+      badge.textContent = '🏆 CLASE MUNDIAL'; badge.style.cssText = 'background:rgba(76,175,125,0.15);color:#4caf7d;border:1px solid rgba(76,175,125,0.3);';
       tip = '✅ OEE ≥ 85% es el estándar de clase mundial. Tu proceso está altamente optimizado.';
     } else if (oee >= 60) {
-      badge.textContent = '📈 ACEPTABLE'; badge.style.background = 'rgba(245,166,35,0.15)'; badge.style.color = '#f5a623'; badge.style.border = '1px solid rgba(245,166,35,0.3)';
-      tip = '⚠️ OEE entre 60–85% es aceptable pero tiene margen de mejora. Analiza qué factor (D, R o Q) es el más bajo y aplica Lean o Six Sigma.';
+      badge.textContent = '📈 ACEPTABLE'; badge.style.cssText = 'background:rgba(245,166,35,0.15);color:#f5a623;border:1px solid rgba(245,166,35,0.3);';
+      tip = '⚠️ OEE entre 60–85%: hay margen de mejora. Analiza el factor más bajo y aplica Lean o Six Sigma.';
     } else {
-      badge.textContent = '🔴 CRÍTICO'; badge.style.background = 'rgba(232,72,85,0.15)'; badge.style.color = '#e84855'; badge.style.border = '1px solid rgba(232,72,85,0.3)';
-      tip = '❌ OEE < 60% indica pérdidas significativas. Prioriza el factor más bajo: ' + (d <= r && d <= q ? 'Disponibilidad (paros y averías)' : r <= q ? 'Rendimiento (velocidad reducida)' : 'Calidad (defectos y retrabajos)') + '.';
+      badge.textContent = '🔴 CRÍTICO'; badge.style.cssText = 'background:rgba(232,72,85,0.15);color:#e84855;border:1px solid rgba(232,72,85,0.3);';
+      const weak = d <= r && d <= q ? 'Disponibilidad' : r <= q ? 'Rendimiento' : 'Calidad';
+      tip = '❌ OEE < 60%: pérdidas significativas. Factor más débil: ' + weak + '. Prioriza mejoras ahí.';
     }
-    const weakest = d <= r && d <= q ? 'Disponibilidad' : r <= q ? 'Rendimiento' : 'Calidad';
-    tip += ' Factor más débil: ' + weakest + '.';
     document.getElementById('oee-tip').textContent = tip;
     document.getElementById('oee-result').classList.add('show');
   }
 
   // ── Takt Time Calculator
   function calcTakt() {
-    const t = parseFloat(document.getElementById('tt-tiempo').value);
+    const t   = parseFloat(document.getElementById('tt-tiempo').value);
     const dem = parseFloat(document.getElementById('tt-demanda').value);
     const turnos = parseInt(document.getElementById('tt-turnos').value) || 1;
-    const ciclo = parseFloat(document.getElementById('tt-ciclo').value);
+    const ciclo  = parseFloat(document.getElementById('tt-ciclo').value);
     if (isNaN(t) || isNaN(dem) || dem === 0) return;
     const takt = t / dem;
     const capTurno = Math.floor(t / takt);
-    const capDia = capTurno * turnos;
+    const capDia   = capTurno * turnos;
     document.getElementById('tt-takt-val').textContent = takt.toFixed(2);
     document.getElementById('tt-prod-val').textContent = capTurno;
-    document.getElementById('tt-dia-val').textContent = capDia;
-    let tip = 'Takt Time: ' + takt.toFixed(2) + ' min/unidad — debes producir una unidad cada ' + (takt * 60).toFixed(0) + ' segundos para satisfacer la demanda.';
+    document.getElementById('tt-dia-val').textContent  = capDia;
+    let tip = 'Takt Time: ' + takt.toFixed(2) + ' min/unidad (' + (takt*60).toFixed(0) + ' seg). Debes producir una unidad cada ' + (takt*60).toFixed(0) + ' segundos.';
     if (!isNaN(ciclo) && ciclo > 0) {
-      if (ciclo > takt * 1.05) tip += ' ⚠️ Tu ciclo (' + ciclo.toFixed(2) + ' min) supera el Takt — hay cuello de botella. Aplica SMED o balanceo de línea.';
-      else if (ciclo < takt * 0.8) tip += ' ⚠️ Tu ciclo (' + ciclo.toFixed(2) + ' min) es mucho menor al Takt — posible sobreproducción. Considera balancear la línea.';
-      else tip += ' ✅ Tu tiempo de ciclo (' + ciclo.toFixed(2) + ' min) está alineado con el Takt. Línea bien balanceada.';
+      if (ciclo > takt * 1.05)      tip += ' ⚠️ Tu ciclo (' + ciclo.toFixed(2) + ' min) supera el Takt — cuello de botella. Aplica SMED o balanceo de línea.';
+      else if (ciclo < takt * 0.8)  tip += ' ⚠️ Tu ciclo (' + ciclo.toFixed(2) + ' min) es mucho menor al Takt — posible sobreproducción.';
+      else                           tip += ' ✅ Tu ciclo (' + ciclo.toFixed(2) + ' min) está alineado con el Takt. Línea balanceada.';
     }
     document.getElementById('tt-tip').textContent = tip;
     document.getElementById('tt-result').classList.add('show');
@@ -1638,55 +1550,44 @@
       { label:'Máquinas',     ids:['c2-1','c2-2','c2-3'], color:'#e84855' },
       { label:'Materiales',   ids:['c3-1','c3-2','c3-3'], color:'#4caf7d' },
       { label:'Métodos',      ids:['c4-1','c4-2','c4-3'], color:'#64b5f6' },
-      { label:'Medio Ambiente',ids:['c5-1','c5-2','c5-3'],color:'#ba68c8' },
+      { label:'Medio Amb.',   ids:['c5-1','c5-2','c5-3'], color:'#ba68c8' },
       { label:'Medición',     ids:['c6-1','c6-2','c6-3'], color:'#ffb74d' },
     ];
-    const W = 900, H = 420, cx = 760, cy = H/2, boxW = 110, boxH = 44;
-    // Spine
-    let svg = '';
-    svg += '<rect width="900" height="420" fill="#0d0d0d" rx="12"/>';
-    svg += '<line x1="80" y1="' + cy + '" x2="' + (cx - boxW/2) + '" y2="' + cy + '" stroke="#f5a623" stroke-width="3"/>';
-    // Arrow head
+    const cy = 210, cx = 760, boxW = 110, boxH = 44;
+    let svg = '<rect width="900" height="420" fill="#0d0d0d" rx="12"/>';
+    svg += '<line x1="80" y1="' + cy + '" x2="' + (cx-boxW/2) + '" y2="' + cy + '" stroke="#f5a623" stroke-width="3"/>';
     svg += '<polygon points="' + (cx-boxW/2) + ',' + cy + ' ' + (cx-boxW/2-14) + ',' + (cy-7) + ' ' + (cx-boxW/2-14) + ',' + (cy+7) + '" fill="#f5a623"/>';
-    // Effect box
     svg += '<rect x="' + (cx-boxW/2) + '" y="' + (cy-boxH/2) + '" width="' + boxW + '" height="' + boxH + '" rx="8" fill="#f5a623"/>';
     const eff = efecto.length > 16 ? efecto.substring(0,14)+'…' : efecto;
     svg += '<text x="' + cx + '" y="' + (cy+5) + '" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-weight="600" font-size="11" fill="#0a0a0a">' + eff + '</text>';
-
-    // 3 upper + 3 lower bones
-    const boneX  = [180, 340, 500, 240, 400, 560];
-    const boneTop = [true, true, true, false, false, false];
-    cats.forEach((cat, i) => {
-      const bx = boneX[i];
-      const top = boneTop[i];
-      const baseY = cy;
-      const tipY = top ? 70 : H - 70;
-      const midX = bx + (top ? 60 : 60);
-      // diagonal bone
-      svg += '<line x1="' + bx + '" y1="' + baseY + '" x2="' + midX + '" y2="' + tipY + '" stroke="' + cat.color + '" stroke-width="1.8" opacity="0.7"/>';
-      // category label
-      const labelY = top ? tipY - 14 : tipY + 22;
-      svg += '<text x="' + midX + '" y="' + labelY + '" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="' + cat.color + '" letter-spacing="1">' + cat.label.toUpperCase() + '</text>';
-      // sub-causes
-      cat.ids.forEach((id, j) => {
+    const boneX  = [180,330,480,240,390,540];
+    const boneTop = [true,true,true,false,false,false];
+    cats.forEach((cat,i) => {
+      const bx = boneX[i], top = boneTop[i];
+      const midX = bx + 55, tipY = top ? 70 : 350;
+      svg += '<line x1="' + bx + '" y1="' + cy + '" x2="' + midX + '" y2="' + tipY + '" stroke="' + cat.color + '" stroke-width="1.8" opacity="0.7"/>';
+      svg += '<text x="' + midX + '" y="' + (top ? tipY-14 : tipY+22) + '" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="' + cat.color + '" letter-spacing="1">' + cat.label.toUpperCase() + '</text>';
+      cat.ids.forEach((id,j) => {
         const val = document.getElementById(id).value.trim();
         if (!val) return;
-        const t = (j + 1) / 4;
-        const px = bx + t * (midX - bx);
-        const py = baseY + t * (tipY - baseY);
-        const subLen = 55;
-        const sx = top ? px - subLen * 0.6 : px - subLen * 0.6;
-        const sy = top ? py - 28 : py + 28;
+        const t = (j+1)/4;
+        const px = bx + t*(midX-bx), py = cy + t*(tipY-cy);
+        const sx = px - 50, sy = top ? py - 28 : py + 28;
         svg += '<line x1="' + px + '" y1="' + py + '" x2="' + sx + '" y2="' + sy + '" stroke="' + cat.color + '" stroke-width="1" opacity="0.5"/>';
         const short = val.length > 13 ? val.substring(0,12)+'…' : val;
-        svg += '<text x="' + sx + '" y="' + (top ? sy - 5 : sy + 14) + '" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="8.5" fill="#c8c4bc">' + short + '</text>';
+        svg += '<text x="' + sx + '" y="' + (top ? sy-5 : sy+14) + '" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="8.5" fill="#c8c4bc">' + short + '</text>';
       });
     });
-
     document.getElementById('ishi-svg').innerHTML = svg;
     document.getElementById('ishi-svg-wrap').classList.add('show');
   }
 
+  // ── Timeline toggle
+  function toggleTL(card) {
+    const isActive = card.classList.contains('active');
+    document.querySelectorAll('.tl-card').forEach(c => c.classList.remove('active'));
+    if (!isActive) card.classList.add('active');
+  }
 
 </script>
 </body>
